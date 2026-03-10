@@ -40,10 +40,7 @@ const Index = () => {
   }, []);
 
   const handleShowResults = () => {
-    setShowResults(true);
-    setTimeout(() => {
-      document.getElementById("results")?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    setShowLeadModal(true);
   };
 
   const handleLeadSubmit = (data: LeadFormData) => {
