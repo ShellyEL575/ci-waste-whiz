@@ -91,20 +91,17 @@ const Index = () => {
         onChange={handleChange}
         agenticSharePercent={results.agenticSharePercent}
         totalAnnualWaste={results.totalAnnualWaste}
-        onShowResults={handleShowResults}
         advancedOpened={advancedOpened}
         onAdvancedOpened={() => setAdvancedOpened(true)}
       />
 
-      {showResults && (
-        <Results
-          results={results}
-          inputs={values as unknown as Record<string, number>}
-          onDownload={() => setShowLeadModal(true)}
-          downloadComplete={downloadComplete}
-          firstName={firstName}
-        />
-      )}
+      <Results
+        results={results}
+        inputs={values as unknown as Record<string, number>}
+        onDownload={() => setShowLeadModal(true)}
+        downloadComplete={downloadComplete}
+        firstName={firstName}
+      />
 
       <LeadModal
         open={showLeadModal}
@@ -113,7 +110,7 @@ const Index = () => {
         defaultTeamSize={values.A1}
       />
 
-      {showResults && <Footer />}
+      <Footer />
     </div>
   );
 };
