@@ -79,8 +79,8 @@ const Results = ({ results, inputs, onDownload, downloadComplete, firstName }: R
 
 
 
-        {/* 3.3b Formula panel */}
-        <FormulaPanel results={results} inputs={inputs} />
+
+
 
         {/* 3.4 Social proof */}
         <SocialProof />
