@@ -17,7 +17,6 @@ interface CalculatorProps {
   onChange: (key: InputKey, value: number) => void;
   agenticSharePercent: number;
   totalAnnualWaste: number;
-  onShowResults: () => void;
   advancedOpened: boolean;
   onAdvancedOpened: () => void;
 }
