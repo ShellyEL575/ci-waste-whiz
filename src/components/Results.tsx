@@ -76,52 +76,8 @@ const Results = ({ results, inputs, onDownload, downloadComplete, firstName }: R
 
 
 
-        {/* 3.3 Breakdown table */}
-        <div className="cb-card mb-6 overflow-x-auto">
-          <h3 className="text-lg font-bold text-cb-text mb-4">Full Breakdown</h3>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-cb-surface-2 text-cb-muted text-xs uppercase tracking-wider">
-                <th className="text-left p-3">Category</th>
-                <th className="text-right p-3">Current Annual Cost</th>
-                <th className="text-right p-3">With Smart Tests</th>
-                <th className="text-right p-3">Annual Savings</th>
-                <th className="text-right p-3">Reduction</th>
-              </tr>
-            </thead>
-            <tbody>
-              {inputs.E1 > 0 && (
-                <tr className="bg-cb-surface-2">
-                  <td className="p-3 text-cb-text">Agentic Build Volume</td>
-                  <td className="p-3 text-right text-cb-muted">{inputs.E1} builds/day ({results.agenticSharePercent}% of total)</td>
-                  <td className="p-3 text-right text-cb-muted">Included in compute model</td>
-                  <td className="p-3 text-right text-cb-muted">—</td>
-                  <td className="p-3 text-right text-cb-muted">—</td>
-                </tr>
-              )}
-              {[
-                { cat: "Test Cloud Compute", cur: results.annualTestComputeCost, after: results.annualTestComputeCost * 0.5, saved: results.savedComputeCostPerYear, pct: "50%" },
-                { cat: "Triage Labor (real bugs)", cur: results.realBugTriageCost, after: results.realBugTriageCost * 0.5, saved: results.savedRealBugTriage, pct: "50%" },
-                { cat: "Flaky Tests (labor + reruns)", cur: results.totalFlakyCost, after: results.totalFlakyCost * 0.2, saved: results.savedFlakyCost, pct: "80%" },
-              ].map((row, i) => (
-                <tr key={row.cat} className={i % 2 === 0 ? "bg-cb-surface" : "bg-cb-surface-2"}>
-                  <td className="p-3 text-cb-text">{row.cat}</td>
-                  <td className="p-3 text-right text-cb-red">{formatCurrency(row.cur)}</td>
-                  <td className="p-3 text-right text-cb-text">{formatCurrency(row.after)}</td>
-                  <td className="p-3 text-right text-cb-green">{formatCurrency(row.saved)}</td>
-                  <td className="p-3 text-right text-cb-text">{row.pct}</td>
-                </tr>
-              ))}
-              <tr className="bg-cb-surface-2 font-bold text-base">
-                <td className="p-3 text-cb-text">TOTAL</td>
-                <td className="p-3 text-right text-cb-red">{formatCurrency(results.totalAnnualWaste)}</td>
-                <td className="p-3 text-right text-cb-text">{formatCurrency(results.totalAnnualWaste - results.totalAnnualSavings)}</td>
-                <td className="p-3 text-right text-cb-green">{formatCurrency(results.totalAnnualSavings)}</td>
-                <td className="p-3 text-right text-cb-muted">—</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+
+
 
         {/* 3.3b Formula panel */}
         <FormulaPanel results={results} inputs={inputs} />
