@@ -98,9 +98,6 @@ const Index = () => {
       <Results
         results={results}
         inputs={values as unknown as Record<string, number>}
-        onDownload={() => setShowLeadModal(true)}
-        downloadComplete={downloadComplete}
-        firstName={firstName}
       />
 
       <LeadModal

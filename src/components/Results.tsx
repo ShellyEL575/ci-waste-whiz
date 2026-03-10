@@ -1,16 +1,10 @@
 import { motion } from "framer-motion";
 import { AnimatedNumber, formatCurrency } from "./AnimatedNumber";
-import { COPY } from "@/config/defaults";
-import FormulaPanel from "./FormulaPanel";
-import SocialProof from "./SocialProof";
 import FormulaTooltip from "./FormulaTooltip";
 
 interface ResultsProps {
   results: ReturnType<typeof import("@/lib/calculations").calculateWaste>;
   inputs: Record<string, number>;
-  onDownload: () => void;
-  downloadComplete: boolean;
-  firstName: string;
 }
 
 const card = {
@@ -22,7 +16,7 @@ const stagger = {
   show: { transition: { staggerChildren: 0.15 } },
 };
 
-const Results = ({ results, inputs, onDownload, downloadComplete, firstName }: ResultsProps) => {
+const Results = ({ results, inputs }: ResultsProps) => {
   return (
     <section id="results" className="py-16 px-4">
       <div className="max-w-[1100px] mx-auto">
@@ -83,49 +77,48 @@ const Results = ({ results, inputs, onDownload, downloadComplete, firstName }: R
 
 
 
-        {/* 3.5 Download CTA */}
-        <div
-          className="cb-card text-center border-t-2 border-cb-purple py-12 mt-10"
-          style={{ background: "radial-gradient(ellipse at center, rgba(107,92,231,0.08), transparent 70%)" }}
+        {/* Growth CTA */}
+        <motion.div
+          variants={card}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="relative overflow-hidden rounded-xl border border-border mt-10"
+          style={{
+            background: "radial-gradient(ellipse at 30% 50%, rgba(107,92,231,0.15), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(139,92,246,0.1), transparent 50%), hsl(var(--cb-surface))",
+          }}
         >
-          {downloadComplete ? (
-            <>
-              <h3 className="cb-section-heading mb-2">Thanks, {firstName}! Your report is downloading.</h3>
-              <p className="text-sm text-cb-muted mb-6">A CloudBees team member may reach out to walk through your numbers.</p>
-              <a href={COPY.demoURL} className="cb-btn-primary inline-block">Book Your Demo</a>
-              <div className="mt-4">
-                <button
-                  onClick={() => {
-                    if (navigator.share) {
-                      navigator.share({ title: "CI Waste Calculator", url: window.location.href });
-                    } else {
-                      navigator.clipboard.writeText(window.location.href);
-                    }
-                  }}
-                  className="text-sm text-cb-purple hover:underline"
-                >
-                  Share the Calculator →
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <h3 className="cb-section-heading mb-2">Download Your Personalized Report</h3>
-              <p className="text-base text-cb-muted mb-6">
-                We'll generate a personalized PDF with your numbers and benchmarks. Takes 30 seconds.
-              </p>
-              <button onClick={onDownload} className="cb-btn-primary text-lg !py-4 !px-10 mb-4">
-                {COPY.resultsCTA}
-              </button>
-              <p className="text-xs text-cb-muted mb-4">
-                No email required to see the results above — only for the downloadable PDF.
-              </p>
-              <a href={COPY.demoURL} className="text-sm text-cb-purple hover:underline">
-                {COPY.demoCTA} →
-              </a>
-            </>
-          )}
-        </div>
+          <div className="px-6 py-14 md:px-16 md:py-20 text-center relative z-10">
+            <p className="cb-eyebrow mb-4 block text-[13px]">WHAT'S NEXT</p>
+            <h3 className="text-[28px] md:text-[40px] font-extrabold leading-tight text-foreground mb-3 max-w-2xl mx-auto">
+              For every fire drill or hurdle,{" "}
+              <span className="cb-gradient-text">there's a leap.</span>
+            </h3>
+            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
+              Your numbers tell a story. Let our team show you exactly how much Smart Tests can recover — 
+              with a customized ROI report built around your pipeline.
+            </p>
+
+            <a
+              href="https://www.cloudbees.com/contact"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cb-btn-primary text-lg !py-4 !px-10 inline-block"
+            >
+              Get Your Custom ROI Report →
+            </a>
+
+            <p className="text-xs text-muted-foreground mt-4 opacity-70">
+              30-minute call · No commitment · Personalized savings breakdown
+            </p>
+          </div>
+
+          {/* Decorative accents */}
+          <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10"
+            style={{ background: "radial-gradient(circle, hsl(var(--cb-purple)), transparent 70%)" }} />
+          <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-10"
+            style={{ background: "radial-gradient(circle, hsl(var(--cb-violet)), transparent 70%)" }} />
+        </motion.div>
       </div>
     </section>
   );
