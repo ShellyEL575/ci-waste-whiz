@@ -48,7 +48,6 @@ const Index = () => {
 
     setFirstName(data.firstName);
     setShowLeadModal(false);
-    setShowResults(true);
     setDownloadComplete(true);
 
     setTimeout(() => {
