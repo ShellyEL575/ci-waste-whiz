@@ -16,7 +16,7 @@ const stagger = {
   show: { transition: { staggerChildren: 0.15 } },
 };
 
-const Results = ({ results, inputs, onDownload, downloadComplete, firstName }: ResultsProps) => {
+const Results = ({ results, inputs }: ResultsProps) => {
   return (
     <section id="results" className="py-16 px-4">
       <div className="max-w-[1100px] mx-auto">
