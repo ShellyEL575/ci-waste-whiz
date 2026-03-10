@@ -45,6 +45,7 @@ const badgeFormats: Record<InputKey, (v: number) => string> = {
   B2: (v) => `${v} builds/dev/day`,
   E1: (v) => `${v} agentic builds/day`,
   B3: (v) => `${v}%`,
+  B4: (v) => `${v}/week`,
   C1: (v) => `$${v.toLocaleString()}/mo`,
   D1: (v) => `${v}/week`,
   D2: (v) => `${v} hrs`,
