@@ -82,8 +82,6 @@ const Results = ({ results, inputs, onDownload, downloadComplete, firstName }: R
 
 
 
-        {/* 3.4 Social proof */}
-        <SocialProof />
 
         {/* 3.5 Download CTA */}
         <div
