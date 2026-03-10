@@ -8,6 +8,7 @@ export const INPUTS = {
   B2: { default: 4,     min: 1,    max: 20,     step: 1,   label: "CI builds per developer per day" },
   E1: { default: 0,     min: 0,    max: 500,    step: 1,   label: "AI agent-generated CI builds per day" },
   B3: { default: 40,    min: 5,    max: 100,    step: 5,   label: "% of builds running full suite" },
+  B4: { default: 3,     min: 0,    max: 50,     step: 1,   label: "Manual 'rerun to be safe' builds per week" },
   C1: { default: 5200,  min: 300,  max: 130000, step: 300, label: "Monthly CI cloud spend on test execution (USD)" },
   D1: { default: 15,    min: 1,    max: 200,    step: 1,   label: "Failure investigations per week" },
   D2: { default: 3,     min: 0.5,  max: 24,     step: 0.5, label: "Hours to triage one failure" },

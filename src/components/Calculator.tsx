@@ -7,7 +7,7 @@ type InputKey = keyof typeof INPUTS;
 
 interface CalculatorInputs {
   A1: number;A2: number;A3: number;
-  B1: number;B2: number;E1: number;B3: number;
+  B1: number;B2: number;E1: number;B3: number;B4: number;
   C1: number;
   D1: number;D2: number;D3: number;
 }
@@ -30,6 +30,7 @@ const helpers: Record<InputKey, string> = {
   B2: "Commits, PRs, and retries. Typical range: 3–6",
   E1: "Builds triggered by AI coding agents (e.g. Claude Code, Copilot Workspace, Cursor, Devin). Default: 0",
   B3: "What % of your builds run the complete suite rather than a subset?",
+  B4: "Full-suite reruns triggered manually for confidence — not by a failure. Conservative: 2–5/week",
   C1: "Your monthly cloud runner spend that goes specifically to running tests (GitHub Actions, CircleCI, Jenkins agents, etc.). Typical: $2k–$15k/mo",
   D1: "How many CI failures require a human to investigate each week?",
   D2: "Time from alert to root cause. Often longer than teams estimate.",
@@ -44,6 +45,7 @@ const badgeFormats: Record<InputKey, (v: number) => string> = {
   B2: (v) => `${v} builds/dev/day`,
   E1: (v) => `${v} agentic builds/day`,
   B3: (v) => `${v}%`,
+  B4: (v) => `${v}/week`,
   C1: (v) => `$${v.toLocaleString()}/mo`,
   D1: (v) => `${v}/week`,
   D2: (v) => `${v} hrs`,
@@ -142,6 +144,7 @@ const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, o
                         </div>
                     }
                       {renderSlider("B3")}
+                      {renderSlider("B4")}
                     </div>
                   </motion.div>
                 }
