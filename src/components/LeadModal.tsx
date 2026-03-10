@@ -52,9 +52,9 @@ const LeadModal = ({ open, onClose, onSubmit, defaultTeamSize }: LeadModalProps)
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="bg-cb-surface border-cb-border max-w-[480px] w-full max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-cb-text text-xl">Where should we send your report?</DialogTitle>
+          <DialogTitle className="text-cb-text text-xl">See Your Full Cost Breakdown</DialogTitle>
           <DialogDescription className="text-cb-muted text-sm">
-            Enter your details and your personalized PDF downloads instantly.
+            Enter your details to unlock your personalized results and download a PDF report.
           </DialogDescription>
         </DialogHeader>
 
