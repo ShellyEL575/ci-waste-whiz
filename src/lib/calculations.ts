@@ -23,6 +23,12 @@ export function calculateWaste(inputs: {
   const totalBuildHoursPerYear  = (fullSuiteBuildsPerYear * B1) / 60;
   const annualTestComputeCost   = C1 * 12;
 
+  // Confidence reruns ("rerun to be safe")
+  const confidenceRerunsPerYear = B4 * 52;
+  const confidenceRerunHours    = (confidenceRerunsPerYear * B1) / 60;
+  const confidenceRerunCost     = totalBuildHoursPerYear > 0
+    ? confidenceRerunHours * (annualTestComputeCost / totalBuildHoursPerYear) : 0;
+
   // Split triage by failure type
   const nonFlakeFailuresPerWeek = D1 * (1 - D3 / 100);
   const flakeFailuresPerWeek    = D1 * (D3 / 100);
