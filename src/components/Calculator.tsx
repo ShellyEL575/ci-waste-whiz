@@ -191,7 +191,7 @@ const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, o
 
         <div className="text-center mt-8">
           <button onClick={onShowResults} className="cb-btn-primary text-lg !py-[18px] !px-10">
-            See My Full CostBreakdown →
+            See My Full Breakdown →
           </button>
         </div>
       </div>
