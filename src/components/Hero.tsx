@@ -23,7 +23,8 @@ const Hero = () => {
       </span>
 
       <h1 className="text-[40px] md:text-[64px] font-extrabold text-cb-text leading-tight mb-6 max-w-4xl">
-        How Much Is Broken CI{" "}
+        How Much do Flaky Tests and "Rerun Everything" is
+        {" "}
         <span className="relative">
           <span className="cb-gradient-text">Costing You?</span>
           <span
