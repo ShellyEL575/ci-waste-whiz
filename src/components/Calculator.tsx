@@ -30,6 +30,7 @@ const helpers: Record<InputKey, string> = {
   B2: "Commits, PRs, and retries. Typical range: 3–6",
   E1: "Builds triggered by AI coding agents (e.g. Claude Code, Copilot Workspace, Cursor, Devin). Default: 0",
   B3: "What % of your builds run the complete suite rather than a subset?",
+  B4: "Full-suite reruns triggered manually for confidence — not by a failure. Conservative: 2–5/week",
   C1: "Your monthly cloud runner spend that goes specifically to running tests (GitHub Actions, CircleCI, Jenkins agents, etc.). Typical: $2k–$15k/mo",
   D1: "How many CI failures require a human to investigate each week?",
   D2: "Time from alert to root cause. Often longer than teams estimate.",
