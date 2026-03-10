@@ -54,7 +54,8 @@ export function calculateWaste(inputs: {
   const savedComputeCostPerYear = annualTestComputeCost * computeSavingsRate;
   const savedRealBugTriage      = realBugTriageCost * triageSavingsRate;
   const savedFlakyCost          = totalFlakyCost * flakeEliminationRate;
-  const totalAnnualSavings      = savedComputeCostPerYear + savedRealBugTriage + savedFlakyCost;
+  const savedConfidenceReruns   = confidenceRerunCost * computeSavingsRate;
+  const totalAnnualSavings      = savedComputeCostPerYear + savedRealBugTriage + savedFlakyCost + savedConfidenceReruns;
 
   // Display metrics
   const savedTriageHoursPerYear = Math.round(
