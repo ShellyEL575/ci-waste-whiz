@@ -68,8 +68,9 @@ export function calculateWaste(inputs: {
   return {
     annualTestComputeCost, realBugTriageCost, totalFlakyCost,
     flakeInvestigationCost, flakeRerunComputeCost, costPerBuildHour,
+    confidenceRerunCost,
     totalAnnualWaste, savedComputeCostPerYear, savedRealBugTriage,
-    savedFlakyCost, totalAnnualSavings,
+    savedFlakyCost, savedConfidenceReruns, totalAnnualSavings,
     savedTriageHoursPerYear, savedBuildHoursPerYear, featuresUnlocked,
     totalBuildsPerDay, agenticBuildsPerDay, agenticSharePercent,
     totalBuildHoursPerYear, realBugTriageHours, flakeInvestigationHours,

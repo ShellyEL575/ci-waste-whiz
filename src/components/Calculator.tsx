@@ -144,6 +144,7 @@ const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, o
                         </div>
                     }
                       {renderSlider("B3")}
+                      {renderSlider("B4")}
                     </div>
                   </motion.div>
                 }
