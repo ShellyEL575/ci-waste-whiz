@@ -7,7 +7,7 @@ type InputKey = keyof typeof INPUTS;
 
 interface CalculatorInputs {
   A1: number;A2: number;A3: number;
-  B1: number;B2: number;E1: number;B3: number;
+  B1: number;B2: number;E1: number;B3: number;B4: number;
   C1: number;
   D1: number;D2: number;D3: number;
 }
