@@ -120,7 +120,7 @@ const Index = () => {
         defaultTeamSize={values.A1}
       />
 
-      <Footer />
+      {showResults && <Footer />}
     </div>
   );
 };
