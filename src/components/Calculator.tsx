@@ -51,7 +51,7 @@ const badgeFormats: Record<InputKey, (v: number) => string> = {
   D3: (v) => `${v}%`
 };
 
-const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, onShowResults, advancedOpened, onAdvancedOpened }: CalculatorProps) => {
+const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, advancedOpened, onAdvancedOpened }: CalculatorProps) => {
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
   const handleAdvancedToggle = () => {
