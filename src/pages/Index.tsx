@@ -26,7 +26,6 @@ const getDefaults = (): InputValues => {
 const Index = () => {
   const { toast } = useToast();
   const [values, setValues] = useState<InputValues>(getDefaults);
-  const [showResults, setShowResults] = useState(false);
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [downloadComplete, setDownloadComplete] = useState(false);
   const [firstName, setFirstName] = useState("");
