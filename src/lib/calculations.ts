@@ -47,7 +47,8 @@ export function calculateWaste(inputs: {
   const totalFlakyCost          = flakeInvestigationCost + flakeRerunComputeCost;
 
   // Total waste
-  const totalAnnualWaste = annualTestComputeCost + realBugTriageCost + totalFlakyCost;
+  // Total waste
+  const totalAnnualWaste = annualTestComputeCost + realBugTriageCost + totalFlakyCost + confidenceRerunCost;
 
   // Savings
   const savedComputeCostPerYear = annualTestComputeCost * computeSavingsRate;
