@@ -1,16 +1,10 @@
 import { motion } from "framer-motion";
 import { AnimatedNumber, formatCurrency } from "./AnimatedNumber";
-import { COPY } from "@/config/defaults";
-import FormulaPanel from "./FormulaPanel";
-import SocialProof from "./SocialProof";
 import FormulaTooltip from "./FormulaTooltip";
 
 interface ResultsProps {
   results: ReturnType<typeof import("@/lib/calculations").calculateWaste>;
   inputs: Record<string, number>;
-  onDownload: () => void;
-  downloadComplete: boolean;
-  firstName: string;
 }
 
 const card = {
