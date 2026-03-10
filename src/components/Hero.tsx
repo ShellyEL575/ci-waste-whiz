@@ -35,16 +35,6 @@ const Hero = () => {
       </p>
 
 
-      <button
-        onClick={scrollToCalculator}
-        className="cb-btn-primary text-lg !py-[18px] !px-10 mb-4">
-        
-        {COPY.heroCTA}
-      </button>
-
-      <p className="text-xs text-cb-muted">
-        No sign-up required to see your results. Takes under 3 minutes.
-      </p>
     </section>);
 
 };
