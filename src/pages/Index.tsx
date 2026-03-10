@@ -77,9 +77,8 @@ const Index = () => {
 
   const progress = useMemo(() => {
     if (!scrolledPastHero) return 0;
-    if (showResults) return 100;
     return 50;
-  }, [scrolledPastHero, showResults]);
+  }, [scrolledPastHero]);
 
   return (
     <div className="min-h-screen bg-background">
