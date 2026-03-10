@@ -73,50 +73,8 @@ const Results = ({ results, inputs, onDownload, downloadComplete, firstName }: R
           <p className="text-xs text-cb-muted mt-2">This grows 15–20% annually as your test suite expands.</p>
         </motion.div>
 
-        {/* 3.2 Savings */}
-        <div className="text-center mb-6">
-          <h3 className="cb-section-heading text-xl mb-1">What You Recover with CloudBees Smart Tests</h3>
-          <p className="text-sm text-cb-muted">Modeled at 50% compute reduction and 50% triage reduction from production deployments.</p>
-        </div>
 
-        <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-          {[
-            {
-              label: "COMPUTE COST SAVED / YEAR",
-              value: results.savedComputeCostPerYear,
-              color: "text-cb-green",
-              fmt: formatCurrency,
-              tooltip: `annualTestComputeCost × 50%\n= ${formatCurrency(results.annualTestComputeCost)} × 0.50\n= ${formatCurrency(results.savedComputeCostPerYear)}`,
-            },
-            {
-              label: "TRIAGE LABOR SAVED / YEAR",
-              value: results.savedRealBugTriage,
-              color: "text-cb-green",
-              fmt: formatCurrency,
-              tooltip: `realBugTriageCost × 50%\n= ${formatCurrency(results.realBugTriageCost)} × 0.50\n= ${formatCurrency(results.savedRealBugTriage)}`,
-            },
-            {
-              label: "BUILD HOURS RECOVERED / YEAR",
-              value: results.savedBuildHoursPerYear,
-              color: "text-cb-purple",
-              fmt: (n: number) => `${Math.round(n).toLocaleString()} hrs`,
-              tooltip: `totalBuildHoursPerYear × 50%\n= ${Math.round(results.totalBuildHoursPerYear).toLocaleString()} hrs × 0.50\n= ${results.savedBuildHoursPerYear.toLocaleString()} hrs`,
-            },
-            {
-              label: "EXTRA FEATURE SPRINTS UNLOCKED",
-              value: results.featuresUnlocked,
-              color: "text-cb-purple",
-              fmt: (n: number) => `~${Math.round(n)} features`,
-              tooltip: `savedTriageHoursPerYear ÷ 160 hrs/sprint\n= ${results.savedTriageHoursPerYear.toLocaleString()} ÷ 160\n= ${results.featuresUnlocked} sprints`,
-            },
-          ].map((item) => (
-            <motion.div key={item.label} variants={card} className="cb-card text-center relative">
-              <FormulaTooltip content={item.tooltip} />
-              <p className="cb-label text-xs mb-2">{item.label}</p>
-              <AnimatedNumber value={item.value} format={item.fmt} className={`cb-kpi ${item.color}`} triggerOnView />
-            </motion.div>
-          ))}
-        </motion.div>
+
 
         {/* 3.3 Breakdown table */}
         <div className="cb-card mb-6 overflow-x-auto">
