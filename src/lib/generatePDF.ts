@@ -4,7 +4,6 @@ import autoTable from "jspdf-autotable";
 const PURPLE = [107, 92, 231] as const;
 const DARK_BG = [13, 13, 18] as const;
 const SURFACE = [22, 22, 31] as const;
-const GREEN = [16, 185, 129] as const;
 const RED = [239, 68, 68] as const;
 const WHITE = [248, 248, 252] as const;
 const MUTED = [156, 163, 175] as const;
@@ -32,8 +31,6 @@ export function generatePDF(
   const pw = doc.internal.pageSize.getWidth();
   const ph = doc.internal.pageSize.getHeight();
   const dateStr = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-  const { advancedOpened = false } = options || {};
-  const INPUTS_DEFAULTS = { E1: 0, B3: 40 };
 
   const fillPage = (color: readonly [number, number, number]) => {
     doc.setFillColor(color[0], color[1], color[2]);
@@ -63,82 +60,23 @@ export function generatePDF(
   doc.setTextColor(PURPLE[0], PURPLE[1], PURPLE[2]);
   doc.text("Smart Tests", 48, 12);
 
-  centerText("CI WASTE ASSESSMENT", 60, 9, PURPLE);
-  centerText("Your Annual CI Waste:", 75, 14, MUTED);
-  centerText(fmt(results.totalAnnualWaste), 90, 36, RED, "bold");
-  centerText("Estimated Annual Savings with Smart Tests:", 108, 12, MUTED);
-  centerText(fmt(results.totalAnnualSavings), 122, 32, GREEN, "bold");
+  centerText("CI WASTE ASSESSMENT", 55, 9, PURPLE);
+  centerText(`Prepared for ${formData.firstName} ${formData.lastName}`, 70, 14, WHITE, "bold");
+  centerText(`${formData.jobTitle} at ${formData.company}`, 78, 10, MUTED);
+  centerText(`Generated: ${dateStr}`, 86, 9, MUTED);
 
   doc.setDrawColor(PURPLE[0], PURPLE[1], PURPLE[2]);
-  doc.line(30, 140, pw - 30, 140);
+  doc.line(30, 95, pw - 30, 95);
 
-  centerText(`Prepared for: ${formData.firstName} ${formData.lastName}`, 155, 11, WHITE);
-  centerText(`${formData.jobTitle} at ${formData.company}`, 163, 10, MUTED);
-  centerText(`Generated: ${dateStr}`, 171, 9, MUTED);
+  centerText("Your Annual CI Waste:", 110, 14, MUTED);
+  centerText(fmt(results.totalAnnualWaste), 125, 36, RED, "bold");
+  centerText("This report breaks down where that cost comes from.", 140, 10, MUTED);
 
   doc.setFillColor(SURFACE[0], SURFACE[1], SURFACE[2]);
   doc.rect(0, ph - 20, pw, 20, "F");
   centerText("cloudbees.com/smart-tests  |  © 2025 CloudBees, Inc.", ph - 10, 8, MUTED);
 
-  // ─── PAGE 2: CI SNAPSHOT ───
-  doc.addPage();
-  fillPage(DARK_BG);
-
-  doc.setFillColor(SURFACE[0], SURFACE[1], SURFACE[2]);
-  doc.rect(0, 0, pw, 15, "F");
-  doc.setFontSize(10);
-  doc.setTextColor(PURPLE[0], PURPLE[1], PURPLE[2]);
-  doc.setFont("helvetica", "bold");
-  doc.text("YOUR CI SNAPSHOT", 15, 10);
-
-  doc.setFontSize(14);
-  doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
-  doc.text("What you told us", 15, 25);
-  doc.setFontSize(9);
-  doc.setTextColor(MUTED[0], MUTED[1], MUTED[2]);
-  doc.setFont("helvetica", "normal");
-  doc.text("Your report is personalized to these inputs.", 15, 30);
-
-  const snapshotBody: string[][] = [
-    ["Engineers who commit code", `${inputs.A1} engineers`],
-    ["QA / SDET engineers", `${inputs.A2} engineers`],
-    ["Hourly engineer cost", `$${inputs.A3} / hour`],
-    ["Full test suite runtime", `${inputs.B1} minutes`],
-    ["CI builds per developer per day", `${inputs.B2} builds`],
-  ];
-
-  // Only include E1 and B3 if advanced was opened and values differ from defaults
-  if (advancedOpened && inputs.E1 !== INPUTS_DEFAULTS.E1) {
-    snapshotBody.push(["AI agent-generated builds per day", `${inputs.E1} builds${inputs.E1 > 0 ? ` (${results.agenticSharePercent}% of total)` : ""}`]);
-  }
-  if (advancedOpened && inputs.B3 !== INPUTS_DEFAULTS.B3) {
-    snapshotBody.push(["Builds running full suite", `${inputs.B3}%`]);
-  }
-
-  snapshotBody.push(
-    ["Monthly CI cloud spend on test execution", `$${inputs.C1.toLocaleString()}`],
-    ["Failure investigations per week", `${inputs.D1} per week`],
-    ["Average triage time per failure", `${inputs.D2} hours`],
-    ["Estimated flaky test rate", `${inputs.D3}%`],
-  );
-
-  autoTable(doc, {
-    startY: 38,
-    head: [["Input", "Your Value"]],
-    body: snapshotBody,
-    styles: { fillColor: [SURFACE[0], SURFACE[1], SURFACE[2]], textColor: [WHITE[0], WHITE[1], WHITE[2]], fontSize: 9, cellPadding: 4 },
-    headStyles: { fillColor: [PURPLE[0], PURPLE[1], PURPLE[2]], textColor: [WHITE[0], WHITE[1], WHITE[2]], fontStyle: "bold" },
-    alternateRowStyles: { fillColor: [30, 30, 46] },
-    theme: "grid",
-    tableLineColor: [45, 45, 61],
-    tableLineWidth: 0.1,
-  });
-
-  doc.setFontSize(8);
-  doc.setTextColor(MUTED[0], MUTED[1], MUTED[2]);
-  doc.text("Results based on conservative benchmarks from CloudBees Smart Tests deployments.", pw / 2, ph - 10, { align: "center" });
-
-  // ─── PAGE 3: COST OF INACTION ───
+  // ─── PAGE 2: COST BREAKDOWN ───
   doc.addPage();
   fillPage(DARK_BG);
 
@@ -147,123 +85,140 @@ export function generatePDF(
   doc.setFontSize(10);
   doc.setTextColor(RED[0], RED[1], RED[2]);
   doc.setFont("helvetica", "bold");
-  doc.text("THE COST OF INACTION", 15, 10);
+  doc.text("YOUR CI COST BREAKDOWN", 15, 10);
 
   doc.setFontSize(14);
   doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
-  doc.text("Your annual CI waste breakdown", 15, 25);
+  doc.text("Where your CI budget is going", 15, 25);
 
-  const boxW = 58;
+  // Cost boxes
+  const boxW = 42;
   const boxGap = 3;
-  const startX = (pw - (boxW * 3 + boxGap * 2)) / 2;
-  const boxes = [
+  const costItems = [
     { label: "Test Compute", value: fmt(results.annualTestComputeCost) },
     { label: "Triage (Real Bugs)", value: fmt(results.realBugTriageCost) },
     { label: "Flaky Tests", value: fmt(results.totalFlakyCost) },
+    { label: "Confidence Reruns", value: fmt(results.confidenceRerunCost) },
   ];
-  boxes.forEach((box, i) => {
+  const startX = (pw - (boxW * costItems.length + boxGap * (costItems.length - 1))) / 2;
+  costItems.forEach((box, i) => {
     const x = startX + i * (boxW + boxGap);
     doc.setFillColor(SURFACE[0], SURFACE[1], SURFACE[2]);
-    doc.roundedRect(x, 40, boxW, 35, 2, 2, "F");
+    doc.roundedRect(x, 35, boxW, 35, 2, 2, "F");
+    doc.setFontSize(7);
+    doc.setTextColor(MUTED[0], MUTED[1], MUTED[2]);
+    doc.setFont("helvetica", "normal");
+    doc.text(box.label, x + boxW / 2, 45, { align: "center" });
+    doc.setFontSize(14);
+    doc.setTextColor(RED[0], RED[1], RED[2]);
+    doc.setFont("helvetica", "bold");
+    doc.text(box.value, x + boxW / 2, 60, { align: "center" });
+  });
+
+  // Total
+  doc.setFillColor(28, 10, 10);
+  doc.roundedRect(20, 80, pw - 40, 30, 2, 2, "F");
+  centerText("TOTAL ANNUAL CI WASTE", 90, 9, MUTED);
+  centerText(fmt(results.totalAnnualWaste), 103, 24, RED, "bold");
+
+  // ─── FORMULAS SECTION ───
+  doc.setFontSize(12);
+  doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
+  doc.setFont("helvetica", "bold");
+  doc.text("How We Calculated This", 15, 125);
+
+  doc.setFontSize(8);
+  doc.setFont("helvetica", "normal");
+
+  const formulas = [
+    {
+      name: "Annual Test Compute Cost",
+      formula: `Monthly CI spend × 12 = $${inputs.C1?.toLocaleString()}/mo × 12 = ${fmt(results.annualTestComputeCost)}`,
+    },
+    {
+      name: "Triage Labor (Real Bugs)",
+      formula: `Failures/wk × (1 − flaky%) × hours/failure × 52 wks × hourly rate\n= ${inputs.D1} × ${Math.round(100 - inputs.D3)}% × ${inputs.D2}h × 52 × $${inputs.A3}/hr = ${fmt(results.realBugTriageCost)}`,
+    },
+    {
+      name: "Flaky Tests (Labor + Reruns)",
+      formula: `Investigation: ${inputs.D1} × ${inputs.D3}% × ${inputs.D2}h × 52 × $${inputs.A3}/hr = ${fmt(results.flakeInvestigationCost)}\nRerun compute: flaky failures × suite runtime × cost/hr = ${fmt(results.flakeRerunComputeCost)}\nTotal: ${fmt(results.totalFlakyCost)}`,
+    },
+    {
+      name: "Confidence Reruns",
+      formula: `${inputs.B4 ?? 0} reruns/wk × 52 wks × ${inputs.B1} min/run × cost per build hour = ${fmt(results.confidenceRerunCost)}`,
+    },
+  ];
+
+  let formulaY = 132;
+  formulas.forEach((f) => {
+    doc.setFontSize(9);
+    doc.setTextColor(PURPLE[0], PURPLE[1], PURPLE[2]);
+    doc.setFont("helvetica", "bold");
+    doc.text(f.name, 20, formulaY);
+    formulaY += 5;
+
     doc.setFontSize(8);
     doc.setTextColor(MUTED[0], MUTED[1], MUTED[2]);
     doc.setFont("helvetica", "normal");
-    doc.text(box.label, x + boxW / 2, 50, { align: "center" });
-    doc.setFontSize(16);
-    doc.setTextColor(RED[0], RED[1], RED[2]);
-    doc.setFont("helvetica", "bold");
-    doc.text(box.value, x + boxW / 2, 65, { align: "center" });
+    const lines = doc.splitTextToSize(f.formula, 165);
+    doc.text(lines, 20, formulaY);
+    formulaY += lines.length * 4 + 5;
   });
 
-  doc.setFillColor(28, 10, 10);
-  doc.roundedRect(20, 90, pw - 40, 40, 2, 2, "F");
-  centerText("TOTAL ANNUAL CI WASTE", 100, 9, MUTED);
-  centerText(fmt(results.totalAnnualWaste), 115, 28, RED, "bold");
-  centerText("This compounds 15–20% per year as your test suite grows.", 125, 8, MUTED);
-
-  const totalEng = inputs.A1 + inputs.A2;
-  const narrative = `At ${totalEng} engineers and ${inputs.B1}-minute suites, your team spends ${Math.round(results.realBugTriageHours)} hours per year triaging real bug failures and ${Math.round(results.flakeInvestigationHours)} hours chasing flaky tests that aren't real bugs. Meanwhile, your CI pipeline burns ${Math.round(results.totalBuildHoursPerYear).toLocaleString()} machine hours per year on full-suite runs — ${results.savedBuildHoursPerYear.toLocaleString()} of which could be safely skipped with AI-powered predictive test selection.`;
-  doc.setFontSize(9);
-  doc.setTextColor(MUTED[0], MUTED[1], MUTED[2]);
-  doc.setFont("helvetica", "normal");
-  const lines = doc.splitTextToSize(narrative, 170);
-  doc.text(lines, 20, 145);
-
-  // ─── PAGE 4: SAVINGS + NEXT STEP ───
+  // ─── PAGE 3: YOUR INPUTS + CTA ───
   doc.addPage();
   fillPage(DARK_BG);
 
-  doc.setFillColor(10, 20, 18);
+  doc.setFillColor(SURFACE[0], SURFACE[1], SURFACE[2]);
   doc.rect(0, 0, pw, 15, "F");
   doc.setFontSize(10);
-  doc.setTextColor(GREEN[0], GREEN[1], GREEN[2]);
+  doc.setTextColor(PURPLE[0], PURPLE[1], PURPLE[2]);
   doc.setFont("helvetica", "bold");
-  doc.text("YOUR SMART TESTS SAVINGS PROJECTION", 15, 10);
-
-  doc.setFontSize(14);
-  doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
-  doc.text("What you recover with Smart Tests", 15, 25);
-  doc.setFontSize(9);
-  doc.setTextColor(MUTED[0], MUTED[1], MUTED[2]);
-  doc.setFont("helvetica", "normal");
-  doc.text("Based on 50% reduction benchmarks from production deployments.", 15, 30);
+  doc.text("YOUR INPUTS", 15, 10);
 
   autoTable(doc, {
-    startY: 42,
-    head: [["Category", "Current Cost", "With Smart Tests", "Annual Savings", "% Reduction"]],
+    startY: 22,
+    head: [["Input", "Your Value"]],
     body: [
-      ["Test Cloud Compute", fmt(results.annualTestComputeCost), fmt(results.annualTestComputeCost * 0.5), fmt(results.savedComputeCostPerYear), "50%"],
-      ["Triage Labor (real bugs)", fmt(results.realBugTriageCost), fmt(results.realBugTriageCost * 0.5), fmt(results.savedRealBugTriage), "50%"],
-      ["Flaky Tests (labor + reruns)", fmt(results.totalFlakyCost), fmt(results.totalFlakyCost * 0.2), fmt(results.savedFlakyCost), "80%"],
-      ["TOTAL", fmt(results.totalAnnualWaste), fmt(results.totalAnnualWaste - results.totalAnnualSavings), fmt(results.totalAnnualSavings), "—"],
+      ["Engineers who commit code", `${inputs.A1} engineers`],
+      ["QA / SDET engineers", `${inputs.A2} engineers`],
+      ["Hourly engineer cost", `$${inputs.A3} / hour`],
+      ["Full test suite runtime", `${inputs.B1} minutes`],
+      ["CI builds per developer per day", `${inputs.B2} builds`],
+      ["Monthly CI cloud spend", `$${inputs.C1?.toLocaleString()}`],
+      ["Failure investigations per week", `${inputs.D1} per week`],
+      ["Average triage time per failure", `${inputs.D2} hours`],
+      ["Estimated flaky test rate", `${inputs.D3}%`],
+      ["Confidence reruns per week", `${inputs.B4 ?? 0} per week`],
     ],
     styles: { fillColor: [SURFACE[0], SURFACE[1], SURFACE[2]], textColor: [WHITE[0], WHITE[1], WHITE[2]], fontSize: 9, cellPadding: 4 },
-    headStyles: { fillColor: [PURPLE[0], PURPLE[1], PURPLE[2]] },
+    headStyles: { fillColor: [PURPLE[0], PURPLE[1], PURPLE[2]], textColor: [WHITE[0], WHITE[1], WHITE[2]], fontStyle: "bold" },
     alternateRowStyles: { fillColor: [30, 30, 46] },
     theme: "grid",
     tableLineColor: [45, 45, 61],
     tableLineWidth: 0.1,
-    didParseCell: (data) => {
-      if (data.column.index === 3 && data.section === "body") {
-        data.cell.styles.textColor = [GREEN[0], GREEN[1], GREEN[2]];
-      }
-      if (data.row.index === 3 && data.section === "body") {
-        data.cell.styles.fontStyle = "bold";
-        data.cell.styles.fontSize = 10;
-      }
-      if (data.column.index === 1 && data.section === "body") {
-        data.cell.styles.textColor = [RED[0], RED[1], RED[2]];
-      }
-    },
   });
 
-  const savingsY = 115;
-  doc.setFillColor(10, 20, 18);
-  doc.roundedRect(20, savingsY, pw - 40, 25, 2, 2, "F");
-  centerText(`Total Annual Savings: ${fmt(results.totalAnnualSavings)}`, savingsY + 10, 20, GREEN, "bold");
-  centerText(
-    `${results.savedBuildHoursPerYear.toLocaleString()} build hours · ${results.savedTriageHoursPerYear.toLocaleString()} triage hours · freed for ${results.featuresUnlocked} extra feature sprints`,
-    savingsY + 19,
-    9,
-    MUTED
-  );
-
+  // CTA section
+  const ctaY = 145;
   doc.setDrawColor(PURPLE[0], PURPLE[1], PURPLE[2]);
-  doc.line(30, 155, pw - 30, 155);
+  doc.line(30, ctaY - 5, pw - 30, ctaY - 5);
 
-  centerText("READY TO SEE THIS WITH YOUR ACTUAL DATA?", 162, 9, PURPLE);
+  centerText("WANT TO SEE HOW MUCH YOU CAN SAVE?", ctaY + 5, 10, PURPLE, "bold");
 
   doc.setFillColor(SURFACE[0], SURFACE[1], SURFACE[2]);
   doc.setDrawColor(PURPLE[0], PURPLE[1], PURPLE[2]);
   doc.setLineWidth(0.5);
-  doc.roundedRect(25, 170, pw - 50, 35, 3, 3, "FD");
+  doc.roundedRect(25, ctaY + 15, pw - 50, 45, 3, 3, "FD");
 
-  centerText("Book a 30-Minute Reverse Demo", 180, 13, WHITE, "bold");
-  centerText("See Smart Tests running against a codebase like yours. Bring your CI metrics — we'll map the savings live.", 188, 9, MUTED);
-  centerText("cloudbees.com/smart-tests-demo", 196, 11, [PURPLE[0], PURPLE[1], PURPLE[2]], "bold");
+  centerText("Book a 30-Minute Reverse Demo", ctaY + 27, 14, WHITE, "bold");
+  centerText("This report shows the cost — let us show you the savings.", ctaY + 35, 10, MUTED);
+  centerText("We'll run Smart Tests against a codebase like yours and map", ctaY + 42, 9, MUTED);
+  centerText("your personalized savings projection live.", ctaY + 48, 9, MUTED);
+  centerText("cloudbees.com/smart-tests-demo", ctaY + 55, 12, [PURPLE[0], PURPLE[1], PURPLE[2]], "bold");
 
-  centerText(`Prepared for ${formData.firstName} ${formData.lastName} at ${formData.company}  |  Generated ${dateStr}`, 215, 8, MUTED);
-  centerText("© 2025 CloudBees, Inc. All rights reserved.  |  cloudbees.com", 221, 8, MUTED);
+  centerText(`Prepared for ${formData.firstName} ${formData.lastName} at ${formData.company}  |  Generated ${dateStr}`, ph - 15, 8, MUTED);
+  centerText("© 2025 CloudBees, Inc. All rights reserved.  |  cloudbees.com", ph - 9, 8, MUTED);
 
   const filename = `cloudbees-ci-waste-report-${formData.company.replace(/\s/g, "-").toLowerCase()}-${new Date().getFullYear()}.pdf`;
   doc.save(filename);
