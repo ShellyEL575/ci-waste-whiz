@@ -34,16 +34,6 @@ const Hero = () => {
 
       </p>
 
-      <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-        {trustBadges.map((badge) =>
-        <span
-          key={badge}
-          className="text-xs text-cb-muted border border-cb-border rounded-full px-3 py-1.5">
-          
-            {badge}
-          </span>
-        )}
-      </div>
 
       <button
         onClick={scrollToCalculator}
