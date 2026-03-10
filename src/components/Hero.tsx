@@ -1,9 +1,5 @@
 import { COPY } from "@/config/defaults";
 
-const trustBadges = [
-"B2B Payments Platform — 50% less compute",
-"Global Travel Tech Company — QA sign-off 8h → 2h",
-"Open Source DB Company — 174 failures → 37 actionable"];
 
 
 const Hero = () => {
