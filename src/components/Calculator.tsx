@@ -6,10 +6,10 @@ import { INPUTS } from "@/config/defaults";
 type InputKey = keyof typeof INPUTS;
 
 interface CalculatorInputs {
-  A1: number; A2: number; A3: number;
-  B1: number; B2: number; E1: number; B3: number;
+  A1: number;A2: number;A3: number;
+  B1: number;B2: number;E1: number;B3: number;
   C1: number;
-  D1: number; D2: number; D3: number;
+  D1: number;D2: number;D3: number;
 }
 
 interface CalculatorProps {
@@ -33,7 +33,7 @@ const helpers: Record<InputKey, string> = {
   C1: "Your monthly cloud runner spend that goes specifically to running tests (GitHub Actions, CircleCI, Jenkins agents, etc.). Typical: $2k–$15k/mo",
   D1: "How many CI failures require a human to investigate each week?",
   D2: "Time from alert to root cause. Often longer than teams estimate.",
-  D3: "Failures with no code change — infrastructure noise, timing, environment. Industry: 25–45%",
+  D3: "Failures with no code change — infrastructure noise, timing, environment. Industry: 25–45%"
 };
 
 const badgeFormats: Record<InputKey, (v: number) => string> = {
@@ -47,7 +47,7 @@ const badgeFormats: Record<InputKey, (v: number) => string> = {
   C1: (v) => `$${v.toLocaleString()}/mo`,
   D1: (v) => `${v}/week`,
   D2: (v) => `${v} hrs`,
-  D3: (v) => `${v}%`,
+  D3: (v) => `${v}%`
 };
 
 const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, onShowResults, advancedOpened, onAdvancedOpened }: CalculatorProps) => {
@@ -61,19 +61,19 @@ const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, o
     }
   };
 
-  const renderSlider = (key: InputKey) => (
-    <SliderInput
-      key={key}
-      label={INPUTS[key].label}
-      value={values[key]}
-      min={INPUTS[key].min}
-      max={INPUTS[key].max}
-      step={INPUTS[key].step}
-      helper={helpers[key]}
-      formatBadge={badgeFormats[key]}
-      onChange={(v) => onChange(key, v)}
-    />
-  );
+  const renderSlider = (key: InputKey) =>
+  <SliderInput
+    key={key}
+    label={INPUTS[key].label}
+    value={values[key]}
+    min={INPUTS[key].min}
+    max={INPUTS[key].max}
+    step={INPUTS[key].step}
+    helper={helpers[key]}
+    formatBadge={badgeFormats[key]}
+    onChange={(v) => onChange(key, v)} />;
+
+
 
   return (
     <section id="calculator" className="py-16 px-4">
@@ -117,34 +117,34 @@ const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, o
             <div className="mt-2">
               <button
                 onClick={handleAdvancedToggle}
-                className="flex items-center gap-2 text-xs text-cb-muted hover:text-cb-text transition-colors"
-              >
+                className="flex items-center gap-2 text-xs text-cb-muted hover:text-cb-text transition-colors">
+                
                 <motion.span animate={{ rotate: advancedOpen ? 90 : 0 }} transition={{ duration: 0.2 }}>
                   ▶
                 </motion.span>
                 Advanced — pipeline settings
               </button>
               <AnimatePresence>
-                {advancedOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
+                {advancedOpen &&
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden">
+                  
                     <div className="bg-cb-surface-2 rounded-lg p-3 mt-2 space-y-1">
                       {renderSlider("E1")}
-                      {values.E1 > 0 && (
-                        <div className="bg-cb-surface-2 border-l-[3px] border-cb-purple p-2.5 rounded-r mb-4 text-xs text-cb-muted">
+                      {values.E1 > 0 &&
+                    <div className="bg-cb-surface-2 border-l-[3px] border-cb-purple p-2.5 rounded-r mb-4 text-xs text-cb-muted">
                           Agentic builds account for <strong className="text-cb-purple">{agenticSharePercent}%</strong> of your total daily build volume.
                           This multiplies CI pressure — and Smart Tests scale linearly with it.
                         </div>
-                      )}
+                    }
                       {renderSlider("B3")}
                     </div>
                   </motion.div>
-                )}
+                }
               </AnimatePresence>
             </div>
           </div>
@@ -178,8 +178,8 @@ const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, o
 
         {/* Live waste ticker */}
         <div className="mt-6 bg-cb-surface-2 border-t border-b border-cb-border py-5 px-4 flex flex-col md:flex-row items-center justify-between gap-3">
-          <span className="text-xs text-cb-muted uppercase tracking-wider">
-            ESTIMATED ANNUAL WASTE — UPDATES AS YOU SLIDE
+          <span className="text-cb-muted uppercase tracking-wider text-lg">ESTIMATED ANNUAL WASTE
+
           </span>
           <span className="text-cb-red font-extrabold text-4xl">
             ${Math.round(totalAnnualWaste).toLocaleString("en-US")}
@@ -192,8 +192,8 @@ const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, o
           </button>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default Calculator;
