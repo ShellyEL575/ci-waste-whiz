@@ -40,14 +40,10 @@ const Index = () => {
   }, []);
 
   const handleShowResults = () => {
-    setShowResults(true);
-    setTimeout(() => {
-      document.getElementById("results")?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    setShowLeadModal(true);
   };
 
   const handleLeadSubmit = (data: LeadFormData) => {
-    // TODO: replace console.log with fetch() POST to process.env.VITE_LEAD_WEBHOOK_URL
     console.log({
       ...data,
       results,
@@ -57,7 +53,12 @@ const Index = () => {
 
     setFirstName(data.firstName);
     setShowLeadModal(false);
+    setShowResults(true);
     setDownloadComplete(true);
+
+    setTimeout(() => {
+      document.getElementById("results")?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
 
     generatePDF(
       { firstName: data.firstName, lastName: data.lastName, company: data.company, jobTitle: data.jobTitle },
