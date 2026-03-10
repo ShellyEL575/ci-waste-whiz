@@ -2,11 +2,11 @@ import { BENCHMARKS } from '../config/defaults';
 
 export function calculateWaste(inputs: {
   A1: number; A2: number; A3: number;
-  B1: number; B2: number; E1: number; B3: number;
+  B1: number; B2: number; E1: number; B3: number; B4: number;
   C1: number;
   D1: number; D2: number; D3: number;
 }) {
-  const { A1, A2, A3, B1, B2, E1, B3, C1, D1, D2, D3 } = inputs;
+  const { A1, A2, A3, B1, B2, E1, B3, B4, C1, D1, D2, D3 } = inputs;
   const { computeSavingsRate, triageSavingsRate, flakeEliminationRate,
           workdaysPerYear, hoursPerSprintPerson } = BENCHMARKS;
 
