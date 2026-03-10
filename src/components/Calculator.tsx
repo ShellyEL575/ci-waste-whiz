@@ -17,7 +17,6 @@ interface CalculatorProps {
   onChange: (key: InputKey, value: number) => void;
   agenticSharePercent: number;
   totalAnnualWaste: number;
-  onShowResults: () => void;
   advancedOpened: boolean;
   onAdvancedOpened: () => void;
 }
@@ -52,7 +51,7 @@ const badgeFormats: Record<InputKey, (v: number) => string> = {
   D3: (v) => `${v}%`
 };
 
-const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, onShowResults, advancedOpened, onAdvancedOpened }: CalculatorProps) => {
+const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, advancedOpened, onAdvancedOpened }: CalculatorProps) => {
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
   const handleAdvancedToggle = () => {
@@ -189,11 +188,7 @@ const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, o
           </span>
         </div>
 
-        <div className="text-center mt-8">
-          <button onClick={onShowResults} className="cb-btn-primary text-lg !py-[18px] !px-10">
-            See My Full Breakdown →
-          </button>
-        </div>
+
       </div>
     </section>);
 

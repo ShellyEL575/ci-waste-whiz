@@ -26,7 +26,6 @@ const getDefaults = (): InputValues => {
 const Index = () => {
   const { toast } = useToast();
   const [values, setValues] = useState<InputValues>(getDefaults);
-  const [showResults, setShowResults] = useState(false);
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [downloadComplete, setDownloadComplete] = useState(false);
   const [firstName, setFirstName] = useState("");
@@ -39,10 +38,6 @@ const Index = () => {
     setValues((prev) => ({ ...prev, [key]: value }));
   }, []);
 
-  const handleShowResults = () => {
-    setShowLeadModal(true);
-  };
-
   const handleLeadSubmit = (data: LeadFormData) => {
     console.log({
       ...data,
@@ -53,7 +48,6 @@ const Index = () => {
 
     setFirstName(data.firstName);
     setShowLeadModal(false);
-    setShowResults(true);
     setDownloadComplete(true);
 
     setTimeout(() => {
@@ -83,9 +77,8 @@ const Index = () => {
 
   const progress = useMemo(() => {
     if (!scrolledPastHero) return 0;
-    if (showResults) return 100;
     return 50;
-  }, [scrolledPastHero, showResults]);
+  }, [scrolledPastHero]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -98,20 +91,17 @@ const Index = () => {
         onChange={handleChange}
         agenticSharePercent={results.agenticSharePercent}
         totalAnnualWaste={results.totalAnnualWaste}
-        onShowResults={handleShowResults}
         advancedOpened={advancedOpened}
         onAdvancedOpened={() => setAdvancedOpened(true)}
       />
 
-      {showResults && (
-        <Results
-          results={results}
-          inputs={values as unknown as Record<string, number>}
-          onDownload={() => setShowLeadModal(true)}
-          downloadComplete={downloadComplete}
-          firstName={firstName}
-        />
-      )}
+      <Results
+        results={results}
+        inputs={values as unknown as Record<string, number>}
+        onDownload={() => setShowLeadModal(true)}
+        downloadComplete={downloadComplete}
+        firstName={firstName}
+      />
 
       <LeadModal
         open={showLeadModal}
@@ -120,7 +110,7 @@ const Index = () => {
         defaultTeamSize={values.A1}
       />
 
-      {showResults && <Footer />}
+      <Footer />
     </div>
   );
 };
