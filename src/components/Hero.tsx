@@ -33,7 +33,7 @@ const Hero = () => {
         </span>
       </h1>
 
-      <p className="text-base md:text-xl text-cb-muted max-w-[560px] mb-8 leading-relaxed">Get a personalized breakdown of your annual CI wastee
+      <p className="text-base md:text-xl text-cb-muted max-w-[560px] mb-8 leading-relaxed">Get a personalized breakdown of your annual CI waste. Takes Under 2 minutes!
 
 
       </p>
