@@ -38,10 +38,6 @@ const Index = () => {
     setValues((prev) => ({ ...prev, [key]: value }));
   }, []);
 
-  const handleShowResults = () => {
-    setShowLeadModal(true);
-  };
-
   const handleLeadSubmit = (data: LeadFormData) => {
     console.log({
       ...data,
