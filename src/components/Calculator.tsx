@@ -80,7 +80,7 @@ const Calculator = ({ values, onChange, agenticSharePercent, totalAnnualWaste, a
     <section id="calculator" className="py-16 px-4">
       <div className="max-w-[1100px] mx-auto">
         <div className="text-center mb-10">
-          <span className="cb-eyebrow text-[11px] tracking-[0.1em] mb-2 block">STEP 1 OF 2</span>
+          <span className="cb-eyebrow text-sm tracking-[0.1em] mb-2 block">STEP 1 OF 2</span>
           <h2 className="cb-section-heading mb-2">Tell Us About Your Team and Testing Habits</h2>
           <p className="text-base text-cb-muted">
             All values are editable. Defaults are industry benchmarks — adjust to match your environment.
