@@ -28,9 +28,9 @@ const FormulaTooltip = ({ content }: FormulaTooltipProps) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4 }}
             transition={{ duration: 0.15 }}
-            className="absolute bottom-full right-0 mb-2 bg-cb-surface-2 border border-cb-border rounded-lg px-3.5 py-2.5 max-w-[280px] z-50 pointer-events-none"
+            className="absolute bottom-full right-0 mb-2 bg-cb-surface-2 border border-cb-border rounded-lg px-4 py-3 max-w-[360px] min-w-[260px] z-50 pointer-events-none"
           >
-            <pre className="font-mono text-[11px] text-cb-muted whitespace-pre-wrap leading-relaxed">
+            <pre className="font-mono text-[13px] text-cb-muted whitespace-pre-wrap leading-relaxed">
               {content}
             </pre>
           </motion.div>
