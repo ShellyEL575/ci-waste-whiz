@@ -9,11 +9,11 @@ interface ResultsProps {
 
 const card = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
+  show: { opacity: 1, y: 0 }
 };
 
 const stagger = {
-  show: { transition: { staggerChildren: 0.15 } },
+  show: { transition: { staggerChildren: 0.15 } }
 };
 
 const Results = ({ results, inputs }: ResultsProps) => {
@@ -31,32 +31,32 @@ const Results = ({ results, inputs }: ResultsProps) => {
         {/* 3.1 Current waste */}
         <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           {[
-            {
-              label: "ANNUAL TEST COMPUTE COST",
-              value: results.annualTestComputeCost,
-              sub: "Running full suites on every build",
-              tooltip: `C1 × 12\n= $${inputs.C1?.toLocaleString()}/mo × 12\n= ${formatCurrency(results.annualTestComputeCost)}`,
-            },
-            {
-              label: "TRIAGE LABOR (REAL BUGS)",
-              value: results.realBugTriageCost,
-              sub: "Engineers debugging real failures instead of shipping",
-              tooltip: `D1 × (1−D3%) × D2 × 52 × A3\n= ${inputs.D1} × ${Math.round(100 - inputs.D3)}% × ${inputs.D2}h × 52wks × $${inputs.A3}/hr\n= ${formatCurrency(results.realBugTriageCost)}`,
-            },
-            {
-              label: "FLAKY TESTS (LABOR + RERUNS)",
-              value: results.totalFlakyCost,
-              sub: "Investigation and reruns from failures with no real bug",
-              tooltip: `(D1 × D3% × D2 × 52 × A3) + rerun compute\n= labor ${formatCurrency(results.flakeInvestigationCost)}\n+ compute ${formatCurrency(results.flakeRerunComputeCost)}\n= ${formatCurrency(results.totalFlakyCost)}`,
-            },
-          ].map((item) => (
-            <motion.div key={item.label} variants={card} className="cb-card text-center relative">
+          {
+            label: "ANNUAL TEST COMPUTE COST",
+            value: results.annualTestComputeCost,
+            sub: "Running full suites on every build",
+            tooltip: `C1 × 12\n= $${inputs.C1?.toLocaleString()}/mo × 12\n= ${formatCurrency(results.annualTestComputeCost)}`
+          },
+          {
+            label: "TRIAGE LABOR (REAL BUGS)",
+            value: results.realBugTriageCost,
+            sub: "Engineers debugging real failures instead of shipping",
+            tooltip: `D1 × (1−D3%) × D2 × 52 × A3\n= ${inputs.D1} × ${Math.round(100 - inputs.D3)}% × ${inputs.D2}h × 52wks × $${inputs.A3}/hr\n= ${formatCurrency(results.realBugTriageCost)}`
+          },
+          {
+            label: "FLAKY TESTS (LABOR + RERUNS)",
+            value: results.totalFlakyCost,
+            sub: "Investigation and reruns from failures with no real bug",
+            tooltip: `(D1 × D3% × D2 × 52 × A3) + rerun compute\n= labor ${formatCurrency(results.flakeInvestigationCost)}\n+ compute ${formatCurrency(results.flakeRerunComputeCost)}\n= ${formatCurrency(results.totalFlakyCost)}`
+          }].
+          map((item) =>
+          <motion.div key={item.label} variants={card} className="cb-card text-center relative">
               <FormulaTooltip content={item.tooltip} />
               <p className="cb-label text-xs mb-2">{item.label}</p>
               <AnimatedNumber value={item.value} className="cb-kpi text-cb-red" triggerOnView />
               <p className="text-xs text-cb-muted mt-2">{item.sub}</p>
             </motion.div>
-          ))}
+          )}
         </motion.div>
 
         {/* Total waste */}
@@ -85,43 +85,43 @@ const Results = ({ results, inputs }: ResultsProps) => {
           viewport={{ once: true }}
           className="relative overflow-hidden rounded-xl border border-border mt-10"
           style={{
-            background: "radial-gradient(ellipse at 30% 50%, rgba(107,92,231,0.15), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(139,92,246,0.1), transparent 50%), hsl(var(--cb-surface))",
-          }}
-        >
+            background: "radial-gradient(ellipse at 30% 50%, rgba(107,92,231,0.15), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(139,92,246,0.1), transparent 50%), hsl(var(--cb-surface))"
+          }}>
+          
           <div className="px-6 py-14 md:px-16 md:py-20 text-center relative z-10">
-            <p className="cb-eyebrow mb-4 block text-[13px]">STOP THE BLEED</p>
+            <p className="cb-eyebrow mb-4 block text-[13px]">WHAT'S NEXT</p>
             <h3 className="text-[28px] md:text-[40px] font-extrabold leading-tight text-foreground mb-3 max-w-2xl mx-auto">
-              Every sprint you wait costs another{" "}
-              <span className="cb-gradient-text">${Math.round(results.totalAnnualWaste / 26).toLocaleString()}.</span>
+              For every fire drill or hurdle,{" "}
+              <span className="cb-gradient-text">there's a leap.</span>
             </h3>
-            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
-              Teams using Smart Tests reclaim 40–70% of wasted CI spend in the first quarter.
-              Book a 30-minute call and we'll build a custom savings roadmap for your pipeline — no strings attached.
+            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">Teams using Smart Tests reclaim 40–70% of wasted CI spend in the first quarter. Book a 30-minute call and we'll build a custom wasdte report for your pipeline — no strings attached.
+
+
             </p>
 
             <a
               href="https://www.cloudbees.com/contact"
               target="_blank"
               rel="noopener noreferrer"
-              className="cb-btn-primary text-lg !py-4 !px-10 inline-block"
-            >
-              Book Your ROI Deep-Dive →
+              className="cb-btn-primary text-lg !py-4 !px-10 inline-block">Book Your Deep-Dive →
+
+
             </a>
 
-            <p className="text-xs text-muted-foreground mt-4 opacity-70">
-              30 min · Zero commitment · Walk away with a personalized savings plan
+            <p className="text-xs text-muted-foreground mt-4 opacity-70">30 min · Zero commitment · Walk away with a personalized cost breakdown.
+
             </p>
           </div>
 
           {/* Decorative accents */}
           <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10"
-            style={{ background: "radial-gradient(circle, hsl(var(--cb-purple)), transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, hsl(var(--cb-purple)), transparent 70%)" }} />
           <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-10"
-            style={{ background: "radial-gradient(circle, hsl(var(--cb-violet)), transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, hsl(var(--cb-violet)), transparent 70%)" }} />
         </motion.div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default Results;
