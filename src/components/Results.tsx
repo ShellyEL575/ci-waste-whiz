@@ -35,19 +35,19 @@ const Results = ({ results, inputs }: ResultsProps) => {
             label: "ANNUAL TEST COMPUTE COST",
             value: results.annualTestComputeCost,
             sub: "Running full suites on every build",
-            tooltip: `Monthly CI spend × 12\n= $${inputs.C1?.toLocaleString()}/mo × 12\n= ${formatCurrency(results.annualTestComputeCost)}`
+            tooltip: `C1 × 12\n= $${inputs.C1?.toLocaleString()}/mo × 12\n= ${formatCurrency(results.annualTestComputeCost)}`
           },
           {
             label: "TRIAGE LABOR (REAL BUGS)",
             value: results.realBugTriageCost,
             sub: "Engineers debugging real failures instead of shipping",
-            tooltip: `Failures/wk × Real bug rate × Triage hours × 52 wks × Hourly cost\n= ${inputs.D1} × ${Math.round(100 - inputs.D3)}% × ${inputs.D2}h × 52wks × $${inputs.A3}/hr\n= ${formatCurrency(results.realBugTriageCost)}`
+            tooltip: `D1 × (1−D3%) × D2 × 52 × A3\n= ${inputs.D1} × ${Math.round(100 - inputs.D3)}% × ${inputs.D2}h × 52wks × $${inputs.A3}/hr\n= ${formatCurrency(results.realBugTriageCost)}`
           },
           {
             label: "FLAKY TESTS (LABOR + RERUNS)",
             value: results.totalFlakyCost,
             sub: "Investigation and reruns from failures with no real bug",
-            tooltip: `(Failures/wk × Flaky rate × Triage hours × 52 wks × Hourly cost) + rerun compute\n= labor ${formatCurrency(results.flakeInvestigationCost)}\n+ compute ${formatCurrency(results.flakeRerunComputeCost)}\n= ${formatCurrency(results.totalFlakyCost)}`
+            tooltip: `(D1 × D3% × D2 × 52 × A3) + rerun compute\n= labor ${formatCurrency(results.flakeInvestigationCost)}\n+ compute ${formatCurrency(results.flakeRerunComputeCost)}\n= ${formatCurrency(results.totalFlakyCost)}`
           }].
           map((item) =>
           <motion.div key={item.label} variants={card} className="cb-card text-center relative">
@@ -89,7 +89,7 @@ const Results = ({ results, inputs }: ResultsProps) => {
           }}>
           
           <div className="px-6 py-14 md:px-16 md:py-20 text-center relative z-10">
-            <p className="cb-eyebrow mb-4 block text-[13px]">STOP THE BLEED</p>
+            
             <h3 className="text-[28px] md:text-[40px] font-extrabold leading-tight text-foreground mb-3 max-w-2xl mx-auto">
               Every red build costs you{" "}
               <span className="cb-gradient-text">
