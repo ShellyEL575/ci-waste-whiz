@@ -95,8 +95,7 @@ const Results = ({ results, inputs }: ResultsProps) => {
               <span className="cb-gradient-text">there's a leap.</span>
             </h3>
             <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
-
-
+              Teams typically see 10–25% faster PR/build feedback cycles within the first quarter. Testing what matters translates to 20–50% less wasted CI spend (fewer unnecessary test minutes + less compute churn).
             </p>
 
             <a
