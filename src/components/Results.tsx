@@ -22,7 +22,7 @@ const Results = ({ results, inputs }: ResultsProps) => {
       <div className="max-w-[1100px] mx-auto">
         <div className="text-center mb-10">
           <span className="cb-eyebrow mb-2 block">YOUR RESULTS</span>
-          <h2 className="cb-section-heading mb-2">Here's What Inefficient CI Is Costing You</h2>
+          <h2 className="cb-section-heading mb-2">Here's What Inefficient Testing Is Costing You</h2>
           <p className="text-base text-cb-muted">
             Based on your inputs and CloudBees Smart Tests production benchmarks.
           </p>
@@ -97,8 +97,8 @@ const Results = ({ results, inputs }: ResultsProps) => {
               </span>
               . How many fired this week?
             </h3>
-            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
-              Teams typically reclaim 40–70% of that waste in the first quarter with smarter test selection. Testing what matters means fewer unnecessary test minutes, less compute churn, and faster PR feedback cycles.
+            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">Teams typically see 10–25% faster PR/build feedback cycles within the first quarter. Testing only what matters, translates to 20–50% less wasted CI spend (fewer unnecessary test minutes + less compute churn).
+
             </p>
 
             <a
