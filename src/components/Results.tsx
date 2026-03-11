@@ -61,7 +61,7 @@ const Results = ({ results, inputs }: ResultsProps) => {
 
         {/* Total waste */}
         <motion.div variants={card} initial="hidden" whileInView="show" viewport={{ once: true }} className="cb-card text-center mb-10 relative" style={{ background: "#1C0B0B" }}>
-          <FormulaTooltip content={`Test Compute + Triage Labor + Flaky Tests\n= ${formatCurrency(results.annualTestComputeCost)}\n+ ${formatCurrency(results.realBugTriageCost)}\n+ ${formatCurrency(results.totalFlakyCost)}\n= ${formatCurrency(results.totalAnnualWaste)}`} />
+          <FormulaTooltip content={`Compute + Triage labor + Flaky test costs\n= ${formatCurrency(results.annualTestComputeCost)} compute\n+ ${formatCurrency(results.realBugTriageCost)} triage\n+ ${formatCurrency(results.totalFlakyCost)} flaky tests\n= ${formatCurrency(results.totalAnnualWaste)} total`} />
           <p className="cb-label text-xs mb-2">TOTAL ANNUAL CI WASTE</p>
           <AnimatedNumber value={results.totalAnnualWaste} className="font-extrabold text-cb-red text-[36px] md:text-[56px]" triggerOnView />
           <p className="text-xs text-cb-muted mt-2">This grows 15–20% annually as your test suite expands.</p>
