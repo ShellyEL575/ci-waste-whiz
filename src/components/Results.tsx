@@ -35,19 +35,19 @@ const Results = ({ results, inputs }: ResultsProps) => {
             label: "ANNUAL TEST COMPUTE COST",
             value: results.annualTestComputeCost,
             sub: "Running full suites on every build",
-            tooltip: `C1 × 12\n= $${inputs.C1?.toLocaleString()}/mo × 12\n= ${formatCurrency(results.annualTestComputeCost)}`
+            tooltip: `Monthly CI spend × 12 months\n= $${inputs.C1?.toLocaleString()}/mo × 12\n= ${formatCurrency(results.annualTestComputeCost)}`
           },
           {
             label: "TRIAGE LABOR (REAL BUGS)",
             value: results.realBugTriageCost,
             sub: "Engineers debugging real failures instead of shipping",
-            tooltip: `D1 × (1−D3%) × D2 × 52 × A3\n= ${inputs.D1} × ${Math.round(100 - inputs.D3)}% × ${inputs.D2}h × 52wks × $${inputs.A3}/hr\n= ${formatCurrency(results.realBugTriageCost)}`
+            tooltip: `Failures/wk × Real bug rate × Triage hours × 52 wks × Hourly rate\n= ${inputs.D1} failures × ${Math.round(100 - inputs.D3)}% real × ${inputs.D2}h triage × 52 wks × $${inputs.A3}/hr\n= ${formatCurrency(results.realBugTriageCost)}`
           },
           {
             label: "FLAKY TESTS (LABOR + RERUNS)",
             value: results.totalFlakyCost,
             sub: "Investigation and reruns from failures with no real bug",
-            tooltip: `(D1 × D3% × D2 × 52 × A3) + rerun compute\n= labor ${formatCurrency(results.flakeInvestigationCost)}\n+ compute ${formatCurrency(results.flakeRerunComputeCost)}\n= ${formatCurrency(results.totalFlakyCost)}`
+            tooltip: `Flaky investigation labor + Rerun compute\n= ${formatCurrency(results.flakeInvestigationCost)} labor\n+ ${formatCurrency(results.flakeRerunComputeCost)} reruns\n= ${formatCurrency(results.totalFlakyCost)} total`
           }].
           map((item) =>
           <motion.div key={item.label} variants={card} className="cb-card text-center relative">
