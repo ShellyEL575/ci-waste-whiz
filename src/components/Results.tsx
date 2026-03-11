@@ -35,19 +35,19 @@ const Results = ({ results, inputs }: ResultsProps) => {
             label: "ANNUAL TEST COMPUTE COST",
             value: results.annualTestComputeCost,
             sub: "Running full suites on every build",
-            tooltip: `Monthly CI spend × 12 months\n= $${inputs.C1?.toLocaleString()}/mo × 12\n= ${formatCurrency(results.annualTestComputeCost)}`
+            tooltip: `C1 × 12\n= $${inputs.C1?.toLocaleString()}/mo × 12\n= ${formatCurrency(results.annualTestComputeCost)}`
           },
           {
             label: "TRIAGE LABOR (REAL BUGS)",
             value: results.realBugTriageCost,
             sub: "Engineers debugging real failures instead of shipping",
-            tooltip: `Failures/wk × Real bug rate × Triage hours × 52 wks × Hourly rate\n= ${inputs.D1} failures × ${Math.round(100 - inputs.D3)}% real × ${inputs.D2}h triage × 52 wks × $${inputs.A3}/hr\n= ${formatCurrency(results.realBugTriageCost)}`
+            tooltip: `D1 × (1−D3%) × D2 × 52 × A3\n= ${inputs.D1} × ${Math.round(100 - inputs.D3)}% × ${inputs.D2}h × 52wks × $${inputs.A3}/hr\n= ${formatCurrency(results.realBugTriageCost)}`
           },
           {
             label: "FLAKY TESTS (LABOR + RERUNS)",
             value: results.totalFlakyCost,
             sub: "Investigation and reruns from failures with no real bug",
-            tooltip: `Flaky investigation labor + Rerun compute\n= ${formatCurrency(results.flakeInvestigationCost)} labor\n+ ${formatCurrency(results.flakeRerunComputeCost)} reruns\n= ${formatCurrency(results.totalFlakyCost)} total`
+            tooltip: `(D1 × D3% × D2 × 52 × A3) + rerun compute\n= labor ${formatCurrency(results.flakeInvestigationCost)}\n+ compute ${formatCurrency(results.flakeRerunComputeCost)}\n= ${formatCurrency(results.totalFlakyCost)}`
           }].
           map((item) =>
           <motion.div key={item.label} variants={card} className="cb-card text-center relative">
@@ -61,7 +61,7 @@ const Results = ({ results, inputs }: ResultsProps) => {
 
         {/* Total waste */}
         <motion.div variants={card} initial="hidden" whileInView="show" viewport={{ once: true }} className="cb-card text-center mb-10 relative" style={{ background: "#1C0B0B" }}>
-          <FormulaTooltip content={`Compute + Triage labor + Flaky test costs\n= ${formatCurrency(results.annualTestComputeCost)} compute\n+ ${formatCurrency(results.realBugTriageCost)} triage\n+ ${formatCurrency(results.totalFlakyCost)} flaky tests\n= ${formatCurrency(results.totalAnnualWaste)} total`} />
+          <FormulaTooltip content={`Test Compute + Triage Labor + Flaky Tests\n= ${formatCurrency(results.annualTestComputeCost)}\n+ ${formatCurrency(results.realBugTriageCost)}\n+ ${formatCurrency(results.totalFlakyCost)}\n= ${formatCurrency(results.totalAnnualWaste)}`} />
           <p className="cb-label text-xs mb-2">TOTAL ANNUAL CI WASTE</p>
           <AnimatedNumber value={results.totalAnnualWaste} className="font-extrabold text-cb-red text-[36px] md:text-[56px]" triggerOnView />
           <p className="text-xs text-cb-muted mt-2">This grows 15–20% annually as your test suite expands.</p>
@@ -89,26 +89,27 @@ const Results = ({ results, inputs }: ResultsProps) => {
           }}>
           
           <div className="px-6 py-14 md:px-16 md:py-20 text-center relative z-10">
-            <p className="cb-eyebrow mb-4 block text-[13px]">STOP THE BLEED</p>
+            <p className="cb-eyebrow mb-4 block text-[13px]">WHAT'S NEXT</p>
             <h3 className="text-[28px] md:text-[40px] font-extrabold leading-tight text-foreground mb-3 max-w-2xl mx-auto">
-              Every red build costs you <span className="cb-gradient-text">${Math.round(results.totalAnnualWaste / (inputs.D1 * 52)).toLocaleString()}</span>.{" "}
-              How many fired this week?
+              For every fire drill or hurdle,{" "}
+              <span className="cb-gradient-text">there's a leap.</span>
             </h3>
             <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
-              Teams using Smart Tests reclaim 40–70% of wasted CI spend in the first quarter. Book a 30-minute call and we'll build a custom ROI report for your pipeline — no strings attached.
+
+
             </p>
 
             <a
               href="https://www.cloudbees.com/contact"
               target="_blank"
               rel="noopener noreferrer"
-              className="cb-btn-primary text-lg !py-4 !px-10 inline-block"
-            >
-              Book Your ROI Deep-Dive →
+              className="cb-btn-primary text-lg !py-4 !px-10 inline-block">Book Your Deep-Dive →
+
+
             </a>
 
-            <p className="text-xs text-muted-foreground mt-4 opacity-70">
-              30 min · Zero commitment · Walk away with a personalized cost breakdown.
+            <p className="text-xs text-muted-foreground mt-4 opacity-70">30 min · Zero commitment · Walk away with a personalized cost breakdown.
+
             </p>
           </div>
 
