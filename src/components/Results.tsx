@@ -89,27 +89,26 @@ const Results = ({ results, inputs }: ResultsProps) => {
           }}>
           
           <div className="px-6 py-14 md:px-16 md:py-20 text-center relative z-10">
-            <p className="cb-eyebrow mb-4 block text-[13px]">WHAT'S NEXT</p>
+            <p className="cb-eyebrow mb-4 block text-[13px]">STOP THE BLEED</p>
             <h3 className="text-[28px] md:text-[40px] font-extrabold leading-tight text-foreground mb-3 max-w-2xl mx-auto">
-              For every fire drill or hurdle,{" "}
-              <span className="cb-gradient-text">there's a leap.</span>
+              That's <span className="cb-gradient-text">${Math.round(results.totalAnnualWaste / 26).toLocaleString()}</span> per sprint —{" "}
+              gone before a single feature ships.
             </h3>
-            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">Teams using Smart Tests reclaim 40–70% of wasted CI spend in the first quarter. Book a 30-minute call and we'll build a custom wasdte report for your pipeline — no strings attached.
-
-
+            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
+              Teams using Smart Tests reclaim 40–70% of wasted CI spend in the first quarter. Book a 30-minute call and we'll build a custom ROI report for your pipeline — no strings attached.
             </p>
 
             <a
               href="https://www.cloudbees.com/contact"
               target="_blank"
               rel="noopener noreferrer"
-              className="cb-btn-primary text-lg !py-4 !px-10 inline-block">Book Your Deep-Dive →
-
-
+              className="cb-btn-primary text-lg !py-4 !px-10 inline-block"
+            >
+              Book Your ROI Deep-Dive →
             </a>
 
-            <p className="text-xs text-muted-foreground mt-4 opacity-70">30 min · Zero commitment · Walk away with a personalized cost breakdown.
-
+            <p className="text-xs text-muted-foreground mt-4 opacity-70">
+              30 min · Zero commitment · Walk away with a personalized cost breakdown.
             </p>
           </div>
 
