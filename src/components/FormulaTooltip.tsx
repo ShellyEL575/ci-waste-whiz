@@ -13,13 +13,13 @@ const FormulaTooltip = ({ content }: FormulaTooltipProps) => {
     <div className="absolute top-3 right-3 z-50">
       <button
         type="button"
-        className="w-4 h-4 flex items-center justify-center rounded-full border border-cb-border text-cb-muted hover:border-cb-purple hover:text-cb-purple transition-colors cursor-pointer"
+        className="w-6 h-6 flex items-center justify-center rounded-full border border-cb-border text-cb-muted hover:border-cb-purple hover:text-cb-purple transition-colors cursor-pointer"
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
         onClick={() => setShow((s) => !s)}
         aria-label="Show formula"
       >
-        <Info size={10} />
+        <Info size={14} />
       </button>
       <AnimatePresence>
         {show && (
