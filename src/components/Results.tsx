@@ -89,14 +89,14 @@ const Results = ({ results, inputs }: ResultsProps) => {
           }}
         >
           <div className="px-6 py-14 md:px-16 md:py-20 text-center relative z-10">
-            <p className="cb-eyebrow mb-4 block text-[13px]">WHAT'S NEXT</p>
+            <p className="cb-eyebrow mb-4 block text-[13px]">STOP THE BLEED</p>
             <h3 className="text-[28px] md:text-[40px] font-extrabold leading-tight text-foreground mb-3 max-w-2xl mx-auto">
-              For every fire drill or hurdle,{" "}
-              <span className="cb-gradient-text">there's a leap.</span>
+              Every sprint you wait costs another{" "}
+              <span className="cb-gradient-text">${Math.round(results.totalAnnualWaste / 26).toLocaleString()}.</span>
             </h3>
             <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
-              Your numbers tell a story. Let our team show you exactly how much Smart Tests can recover — 
-              with a customized ROI report built around your pipeline.
+              Teams using Smart Tests reclaim 40–70% of wasted CI spend in the first quarter.
+              Book a 30-minute call and we'll build a custom savings roadmap for your pipeline — no strings attached.
             </p>
 
             <a
@@ -105,11 +105,11 @@ const Results = ({ results, inputs }: ResultsProps) => {
               rel="noopener noreferrer"
               className="cb-btn-primary text-lg !py-4 !px-10 inline-block"
             >
-              Get Your Custom ROI Report →
+              Book Your ROI Deep-Dive →
             </a>
 
             <p className="text-xs text-muted-foreground mt-4 opacity-70">
-              30-minute call · No commitment · Personalized savings breakdown
+              30 min · Zero commitment · Walk away with a personalized savings plan
             </p>
           </div>
 
