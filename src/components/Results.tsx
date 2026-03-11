@@ -89,13 +89,16 @@ const Results = ({ results, inputs }: ResultsProps) => {
           }}>
           
           <div className="px-6 py-14 md:px-16 md:py-20 text-center relative z-10">
-            <p className="cb-eyebrow mb-4 block text-[13px]">WHAT'S NEXT</p>
+            <p className="cb-eyebrow mb-4 block text-[13px]">STOP THE BLEED</p>
             <h3 className="text-[28px] md:text-[40px] font-extrabold leading-tight text-foreground mb-3 max-w-2xl mx-auto">
-              For every fire drill or hurdle,{" "}
-              <span className="cb-gradient-text">there's a leap.</span>
+              Every red build costs you{" "}
+              <span className="cb-gradient-text">
+                ${Math.round(results.totalAnnualWaste / (inputs.D1 * 52)).toLocaleString()}
+              </span>
+              . How many fired this week?
             </h3>
             <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
-              Teams typically see 10–25% faster PR/build feedback cycles within the first quarter. Testing what matters translates to 20–50% less wasted CI spend (fewer unnecessary test minutes + less compute churn).
+              Teams typically reclaim 40–70% of that waste in the first quarter with smarter test selection. Testing what matters means fewer unnecessary test minutes, less compute churn, and faster PR feedback cycles.
             </p>
 
             <a
