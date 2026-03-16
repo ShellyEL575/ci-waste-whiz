@@ -1,4 +1,4 @@
-import { BENCHMARKS } from '../config/defaults';
+import { BENCHMARKS, INPUTS } from '../config/defaults';
 
 export function calculateWaste(inputs: {
   A1: number; A2: number; A3: number;
@@ -17,11 +17,16 @@ export function calculateWaste(inputs: {
   const agenticSharePercent     = totalBuildsPerDay > 0
     ? Math.round((agenticBuildsPerDay / totalBuildsPerDay) * 100) : 0;
 
+  // Scale compute cost with build volume relative to baseline
+  const baselineBuildsPerDay    = INPUTS.A1.default * INPUTS.B2.default + INPUTS.E1.default;
+  const buildVolumeRatio        = baselineBuildsPerDay > 0
+    ? totalBuildsPerDay / baselineBuildsPerDay : 1;
+
   // Compute cost
   const fullSuiteBuildsPerDay   = totalBuildsPerDay * (B3 / 100);
   const fullSuiteBuildsPerYear  = fullSuiteBuildsPerDay * workdaysPerYear;
   const totalBuildHoursPerYear  = (fullSuiteBuildsPerYear * B1) / 60;
-  const annualTestComputeCost   = C1 * 12;
+  const annualTestComputeCost   = C1 * 12 * buildVolumeRatio;
 
   // Confidence reruns ("rerun to be safe")
   const confidenceRerunsPerYear = B4 * 52;
