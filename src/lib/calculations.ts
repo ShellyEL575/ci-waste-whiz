@@ -1,4 +1,4 @@
-import { BENCHMARKS, INPUTS } from '../config/defaults';
+import { BENCHMARKS } from '../config/defaults';
 
 export function calculateWaste(inputs: {
   A1: number; A2: number; A3: number;
@@ -6,43 +6,37 @@ export function calculateWaste(inputs: {
   C1: number;
   D1: number; D2: number; D3: number;
 }) {
-  const { A1, A2, A3, B1, B2, E1, B3, B4, C1, D1, D2, D3 } = inputs;
+  const { A1, A3, B1, B2, E1, B3, C1, D1, D2, D3 } = inputs;
   const { computeSavingsRate, triageSavingsRate, flakeEliminationRate,
           workdaysPerYear, hoursPerSprintPerson } = BENCHMARKS;
 
-  // Build volume
-  const humanBuildsPerDay       = A1 * B2;
-  const agenticBuildsPerDay     = E1;
-  const totalBuildsPerDay       = humanBuildsPerDay + agenticBuildsPerDay;
-  const agenticSharePercent     = totalBuildsPerDay > 0
+  // ─── BUILD VOLUME ─────────────────────────────────────────
+  const humanBuildsPerDay   = A1 * B2;
+  const agenticBuildsPerDay = E1;
+  const totalBuildsPerDay   = humanBuildsPerDay + agenticBuildsPerDay;
+  const agenticSharePercent = totalBuildsPerDay > 0
     ? Math.round((agenticBuildsPerDay / totalBuildsPerDay) * 100) : 0;
 
-  // Scale compute cost with build volume relative to baseline
-  const baselineBuildsPerDay    = INPUTS.A1.default * INPUTS.B2.default + INPUTS.E1.default;
-  const buildVolumeRatio        = baselineBuildsPerDay > 0
-    ? totalBuildsPerDay / baselineBuildsPerDay : 1;
+  // ─── TEST COMPUTE COST ────────────────────────────────────
+  // Scale C1 proportionally to actual full-suite build volume vs. default baseline
+  const fullSuiteBuildsPerDay         = totalBuildsPerDay * (B3 / 100);
+  const fullSuiteBuildsPerYear        = fullSuiteBuildsPerDay * workdaysPerYear;
+  const totalBuildHoursPerYear        = (fullSuiteBuildsPerYear * B1) / 60;
 
-  // Compute cost
-  const fullSuiteBuildsPerDay   = totalBuildsPerDay * (B3 / 100);
-  const fullSuiteBuildsPerYear  = fullSuiteBuildsPerDay * workdaysPerYear;
-  const totalBuildHoursPerYear  = (fullSuiteBuildsPerYear * B1) / 60;
-  const annualTestComputeCost   = C1 * 12 * buildVolumeRatio;
+  const defaultFullSuiteBuildsPerDay  = (50 * 4 + 0) * (40 / 100); // A1=50, B2=4, E1=0, B3=40%
+  const defaultFullSuiteBuildsPerYear = defaultFullSuiteBuildsPerDay * workdaysPerYear;
+  const buildVolumeScale              = defaultFullSuiteBuildsPerYear > 0
+    ? fullSuiteBuildsPerYear / defaultFullSuiteBuildsPerYear : 1;
 
-  // Confidence reruns ("rerun to be safe")
-  const confidenceRerunsPerYear = B4 * 52;
-  const confidenceRerunHours    = (confidenceRerunsPerYear * B1) / 60;
-  const confidenceRerunCost     = totalBuildHoursPerYear > 0
-    ? confidenceRerunHours * (annualTestComputeCost / totalBuildHoursPerYear) : 0;
+  const annualTestComputeCost = C1 * 12 * buildVolumeScale;
 
-  // Split triage by failure type
+  // ─── TRIAGE — REAL BUGS ONLY ──────────────────────────────
   const nonFlakeFailuresPerWeek = D1 * (1 - D3 / 100);
-  const flakeFailuresPerWeek    = D1 * (D3 / 100);
-
-  // Real-bug triage (non-flaky failures only)
   const realBugTriageHours      = nonFlakeFailuresPerWeek * D2 * 52;
   const realBugTriageCost       = realBugTriageHours * A3;
 
-  // Flaky test cost = investigation labor + rerun compute
+  // ─── FLAKY TEST COST (labor + rerun compute) ──────────────
+  const flakeFailuresPerWeek    = D1 * (D3 / 100);
   const flakeInvestigationHours = flakeFailuresPerWeek * D2 * 52;
   const flakeInvestigationCost  = flakeInvestigationHours * A3;
   const flakeRerunHoursPerYear  = flakeFailuresPerWeek * 52 * (B1 / 60);
@@ -51,20 +45,18 @@ export function calculateWaste(inputs: {
   const flakeRerunComputeCost   = flakeRerunHoursPerYear * costPerBuildHour;
   const totalFlakyCost          = flakeInvestigationCost + flakeRerunComputeCost;
 
-  // Total waste
-  // Total waste
-  const totalAnnualWaste = annualTestComputeCost + realBugTriageCost + totalFlakyCost + confidenceRerunCost;
+  // ─── TOTAL WASTE ──────────────────────────────────────────
+  const totalAnnualWaste = annualTestComputeCost + realBugTriageCost + totalFlakyCost;
 
-  // Savings
+  // ─── SAVINGS ──────────────────────────────────────────────
   const savedComputeCostPerYear = annualTestComputeCost * computeSavingsRate;
-  const savedRealBugTriage      = realBugTriageCost * triageSavingsRate;
-  const savedFlakyCost          = totalFlakyCost * flakeEliminationRate;
-  const savedConfidenceReruns   = confidenceRerunCost * computeSavingsRate;
-  const totalAnnualSavings      = savedComputeCostPerYear + savedRealBugTriage + savedFlakyCost + savedConfidenceReruns;
+  const savedRealBugTriage      = realBugTriageCost     * triageSavingsRate;
+  const savedFlakyCost          = totalFlakyCost        * flakeEliminationRate;
+  const totalAnnualSavings      = savedComputeCostPerYear + savedRealBugTriage + savedFlakyCost;
 
-  // Display metrics
+  // ─── DISPLAY METRICS ──────────────────────────────────────
   const savedTriageHoursPerYear = Math.round(
-    (realBugTriageHours * triageSavingsRate) +
+    (realBugTriageHours      * triageSavingsRate) +
     (flakeInvestigationHours * flakeEliminationRate)
   );
   const savedBuildHoursPerYear  = Math.round(totalBuildHoursPerYear * computeSavingsRate);
@@ -73,11 +65,11 @@ export function calculateWaste(inputs: {
   return {
     annualTestComputeCost, realBugTriageCost, totalFlakyCost,
     flakeInvestigationCost, flakeRerunComputeCost, costPerBuildHour,
-    confidenceRerunCost,
     totalAnnualWaste, savedComputeCostPerYear, savedRealBugTriage,
-    savedFlakyCost, savedConfidenceReruns, totalAnnualSavings,
+    savedFlakyCost, totalAnnualSavings,
     savedTriageHoursPerYear, savedBuildHoursPerYear, featuresUnlocked,
     totalBuildsPerDay, agenticBuildsPerDay, agenticSharePercent,
     totalBuildHoursPerYear, realBugTriageHours, flakeInvestigationHours,
+    buildVolumeScale,
   };
 }
