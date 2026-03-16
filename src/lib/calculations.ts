@@ -1,4 +1,4 @@
-import { BENCHMARKS } from '../config/defaults';
+import { BENCHMARKS, INPUTS } from '../config/defaults';
 
 export function calculateWaste(inputs: {
   A1: number; A2: number; A3: number;
