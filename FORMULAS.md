@@ -5,13 +5,13 @@
 | Key | Label | Default | Min | Max |
 |-----|-------|---------|-----|-----|
 | A1 | Engineers who commit code | 50 | 5 | 5000 |
-| A2 | QA / SDET engineers | 10 | 1 | 500 |
+| A2 | QA / SDET engineers (UI only, not used in calc) | 10 | 1 | 500 |
 | A3 | Hourly engineer cost (USD) | $75 | $40 | $250 |
 | B1 | Full test suite runtime (minutes) | 60 | 5 | 480 |
 | B2 | CI builds per developer per day | 4 | 1 | 20 |
 | E1 | AI agent-generated CI builds per day | 0 | 0 | 500 |
 | B3 | % of builds running full suite | 40% | 5% | 100% |
-| B4 | Manual "rerun to be safe" builds per week | 3 | 0 | 50 |
+| B4 | Manual "rerun to be safe" builds per week (UI only, not used in calc) | 3 | 0 | 50 |
 | C1 | Monthly CI cloud spend on test execution (USD) | $5,200 | $300 | $130,000 |
 | D1 | Failure investigations per week | 15 | 1 | 200 |
 | D2 | Hours to triage one failure | 3h | 0.5h | 24h |
@@ -42,41 +42,22 @@ agenticSharePercent = (agenticBuildsPerDay / totalBuildsPerDay) × 100
 
 ---
 
-## Compute Cost Scaling
+## Test Compute Cost
 
-The reported monthly spend (`C1`) is scaled by how current build volume compares to the default baseline, so that adding engineers increases estimated waste proportionally.
-
-```
-baselineBuildsPerDay = A1_default × B2_default + E1_default
-                     = 50 × 4 + 0 = 200
-
-buildVolumeRatio     = totalBuildsPerDay / baselineBuildsPerDay
-```
-
----
-
-## Annual Test Compute Cost
+`C1` is the user's reported monthly spend at the **default** volume. It is scaled proportionally to actual full-suite build volume vs. the baseline (A1=50, B2=4, E1=0, B3=40%).
 
 ```
-fullSuiteBuildsPerDay  = totalBuildsPerDay × (B3 / 100)
-fullSuiteBuildsPerYear = fullSuiteBuildsPerDay × 250
+fullSuiteBuildsPerDay         = totalBuildsPerDay × (B3 / 100)
+fullSuiteBuildsPerYear        = fullSuiteBuildsPerDay × 250
 
-totalBuildHoursPerYear = (fullSuiteBuildsPerYear × B1) / 60
+totalBuildHoursPerYear        = (fullSuiteBuildsPerYear × B1) / 60
 
-annualTestComputeCost  = C1 × 12 × buildVolumeRatio
-```
+defaultFullSuiteBuildsPerDay  = (50 × 4 + 0) × (40 / 100) = 80
+defaultFullSuiteBuildsPerYear = defaultFullSuiteBuildsPerDay × 250 = 20,000
 
----
+buildVolumeScale              = fullSuiteBuildsPerYear / defaultFullSuiteBuildsPerYear
 
-## Confidence Reruns ("rerun to be safe")
-
-```
-confidenceRerunsPerYear = B4 × 52
-confidenceRerunHours    = (confidenceRerunsPerYear × B1) / 60
-
-costPerBuildHour        = annualTestComputeCost / totalBuildHoursPerYear
-
-confidenceRerunCost     = confidenceRerunHours × costPerBuildHour
+annualTestComputeCost         = C1 × 12 × buildVolumeScale
 ```
 
 ---
@@ -101,6 +82,7 @@ flakeInvestigationHours   = flakeFailuresPerWeek × D2 × 52
 flakeInvestigationCost    = flakeInvestigationHours × A3
 
 flakeRerunHoursPerYear    = flakeFailuresPerWeek × 52 × (B1 / 60)
+costPerBuildHour          = annualTestComputeCost / totalBuildHoursPerYear
 flakeRerunComputeCost     = flakeRerunHoursPerYear × costPerBuildHour
 
 totalFlakyCost            = flakeInvestigationCost + flakeRerunComputeCost
@@ -114,7 +96,6 @@ totalFlakyCost            = flakeInvestigationCost + flakeRerunComputeCost
 totalAnnualWaste = annualTestComputeCost
                  + realBugTriageCost
                  + totalFlakyCost
-                 + confidenceRerunCost
 ```
 
 ---
@@ -125,12 +106,10 @@ totalAnnualWaste = annualTestComputeCost
 savedComputeCostPerYear = annualTestComputeCost × 50%
 savedRealBugTriage      = realBugTriageCost     × 50%
 savedFlakyCost          = totalFlakyCost        × 80%
-savedConfidenceReruns   = confidenceRerunCost   × 50%
 
 totalAnnualSavings      = savedComputeCostPerYear
                         + savedRealBugTriage
                         + savedFlakyCost
-                        + savedConfidenceReruns
 ```
 
 ---
@@ -139,7 +118,7 @@ totalAnnualSavings      = savedComputeCostPerYear
 
 ```
 savedTriageHoursPerYear = round(
-  realBugTriageHours    × 50%  +
+  realBugTriageHours      × 50%  +
   flakeInvestigationHours × 80%
 )
 
