@@ -6,12 +6,12 @@ export function calculateWaste(inputs: {
   C1: number;
   D1: number; D2: number; D3: number;
 }) {
-  const { A1, A3, B1, B2, E1, B3, B4, C1, D1, D2, D3 } = inputs;
+  const { A1, A2, A3, B1, B2, E1, B3, B4, C1, D1, D2, D3 } = inputs;
   const { computeSavingsRate, triageSavingsRate, flakeEliminationRate,
           workdaysPerYear, hoursPerSprintPerson } = BENCHMARKS;
 
   // ─── BUILD VOLUME ─────────────────────────────────────────
-  const humanBuildsPerDay   = A1 * B2;
+  const humanBuildsPerDay   = (A1 + A2) * B2;
   const agenticBuildsPerDay = E1;
   const totalBuildsPerDay   = humanBuildsPerDay + agenticBuildsPerDay;
   const agenticSharePercent = totalBuildsPerDay > 0
