@@ -22,7 +22,7 @@ export function calculateWaste(inputs: {
   const fullSuiteBuildsPerYear        = fullSuiteBuildsPerDay * workdaysPerYear;
   const totalBuildHoursPerYear        = (fullSuiteBuildsPerYear * B1) / 60;
 
-  const defaultFullSuiteBuildsPerDay  = (50 * 4 + 0) * (40 / 100);
+  const defaultFullSuiteBuildsPerDay  = (50 * 4 + 10 * 4) * (40 / 100); // A1=50, A2=10 defaults
   const defaultFullSuiteBuildsPerYear = defaultFullSuiteBuildsPerDay * workdaysPerYear;
   const buildVolumeScale              = defaultFullSuiteBuildsPerYear > 0
     ? fullSuiteBuildsPerYear / defaultFullSuiteBuildsPerYear : 1;
@@ -37,13 +37,15 @@ export function calculateWaste(inputs: {
   const confidenceRerunCost     = confidenceRerunHours * costPerBuildHour;
 
   // ─── TRIAGE — REAL BUGS ONLY ──────────────────────────────
+  // A2 (QA/SDET) are the primary investigators; scale triage headcount by total eng team
+  const triageTeamScale         = (A1 + A2) / (50 + 10); // relative to defaults
   const nonFlakeFailuresPerWeek = D1 * (1 - D3 / 100);
-  const realBugTriageHours      = nonFlakeFailuresPerWeek * D2 * 52;
+  const realBugTriageHours      = nonFlakeFailuresPerWeek * D2 * 52 * triageTeamScale;
   const realBugTriageCost       = realBugTriageHours * A3;
 
   // ─── FLAKY TEST COST (labor + rerun compute) ──────────────
   const flakeFailuresPerWeek    = D1 * (D3 / 100);
-  const flakeInvestigationHours = flakeFailuresPerWeek * D2 * 52;
+  const flakeInvestigationHours = flakeFailuresPerWeek * D2 * 52 * triageTeamScale;
   const flakeInvestigationCost  = flakeInvestigationHours * A3;
   const flakeRerunHoursPerYear  = flakeFailuresPerWeek * 52 * (B1 / 60);
   const flakeRerunComputeCost   = flakeRerunHoursPerYear * costPerBuildHour;
