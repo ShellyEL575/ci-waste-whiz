@@ -24,8 +24,9 @@ export function calculateWaste(inputs: {
 
   const defaultFullSuiteBuildsPerDay  = (50 * 4 + 10 * 4) * (40 / 100); // A1=50, A2=10 defaults
   const defaultFullSuiteBuildsPerYear = defaultFullSuiteBuildsPerDay * workdaysPerYear;
-  const buildVolumeScale              = defaultFullSuiteBuildsPerYear > 0
-    ? fullSuiteBuildsPerYear / defaultFullSuiteBuildsPerYear : 1;
+  const defaultB1                     = 60; // baseline suite runtime in minutes
+  const buildVolumeScale              = (defaultFullSuiteBuildsPerYear * defaultB1) > 0
+    ? (fullSuiteBuildsPerYear * B1) / (defaultFullSuiteBuildsPerYear * defaultB1) : 1;
 
   const annualTestComputeCost = C1 * 12 * buildVolumeScale;
 
