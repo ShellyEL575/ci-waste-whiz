@@ -38,9 +38,8 @@ export function calculateWaste(inputs: {
 
   // ─── TRIAGE — REAL BUGS ONLY ──────────────────────────────
   const nonFlakeFailuresPerWeek = D1 * (1 - D3 / 100);
-  const triageEngineers         = A2 > 0 ? A2 : 1; // QA/SDETs own triage
   const realBugTriageHours      = nonFlakeFailuresPerWeek * D2 * 52;
-  const realBugTriageCost       = realBugTriageHours * A3 * (1 + A2 / (A1 + A2));
+  const realBugTriageCost       = realBugTriageHours * A3;
 
   // ─── FLAKY TEST COST (labor + rerun compute) ──────────────
   const flakeFailuresPerWeek    = D1 * (D3 / 100);
