@@ -22,7 +22,7 @@ export function calculateWaste(inputs: {
   const fullSuiteBuildsPerYear        = fullSuiteBuildsPerDay * workdaysPerYear;
   const totalBuildHoursPerYear        = (fullSuiteBuildsPerYear * B1) / 60;
 
-  // baseline: (50 devs + 10 QA) × 4 builds × 40% × 250 days = 24,000 builds/yr × 60 min
+  // baseline: 50 devs × 4 builds × 40% × 250 days = 20,000 builds/yr × 60 min
   const defaultB1                     = 60;
   const buildVolumeScale              = (fullSuiteBuildsPerYear * B1) / (20000 * defaultB1);
 
