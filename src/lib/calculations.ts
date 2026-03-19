@@ -11,7 +11,7 @@ export function calculateWaste(inputs: {
           workdaysPerYear, hoursPerSprintPerson } = BENCHMARKS;
 
   // ─── BUILD VOLUME ─────────────────────────────────────────
-  const humanBuildsPerDay   = (A1 + A2) * B2;
+  const humanBuildsPerDay   = A1 * B2;
   const agenticBuildsPerDay = E1;
   const totalBuildsPerDay   = humanBuildsPerDay + agenticBuildsPerDay;
   const agenticSharePercent = totalBuildsPerDay > 0
@@ -22,7 +22,7 @@ export function calculateWaste(inputs: {
   const fullSuiteBuildsPerYear        = fullSuiteBuildsPerDay * workdaysPerYear;
   const totalBuildHoursPerYear        = (fullSuiteBuildsPerYear * B1) / 60;
 
-  const defaultFullSuiteBuildsPerDay  = (50 * 4 + 10 * 4) * (40 / 100); // A1=50, A2=10 defaults
+  const defaultFullSuiteBuildsPerDay  = (50 * 4) * (40 / 100); // A1=50 default only, A2 excluded
   const defaultFullSuiteBuildsPerYear = defaultFullSuiteBuildsPerDay * workdaysPerYear;
   const defaultB1                     = 60; // baseline suite runtime in minutes
   const buildVolumeScale              = (defaultFullSuiteBuildsPerYear * defaultB1) > 0
