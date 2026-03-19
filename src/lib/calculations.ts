@@ -11,7 +11,7 @@ export function calculateWaste(inputs: {
           workdaysPerYear, hoursPerSprintPerson } = BENCHMARKS;
 
   // ─── BUILD VOLUME ─────────────────────────────────────────
-  const humanBuildsPerDay   = A1 * B2;
+  const humanBuildsPerDay   = (A1 + A2) * B2;
   const agenticBuildsPerDay = E1;
   const totalBuildsPerDay   = humanBuildsPerDay + agenticBuildsPerDay;
   const agenticSharePercent = totalBuildsPerDay > 0
