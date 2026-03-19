@@ -31,9 +31,11 @@ export function calculateWaste(inputs: {
   // ─── CONFIDENCE RERUNS (B4) ───────────────────────────────
   const costPerBuildHour        = totalBuildHoursPerYear > 0
     ? annualTestComputeCost / totalBuildHoursPerYear : 0;
-  const confidenceRerunsPerYear = B4 * 52;
-  const confidenceRerunHours    = (confidenceRerunsPerYear * B1) / 60;
-  const confidenceRerunCost     = confidenceRerunHours * costPerBuildHour;
+  const confidenceRerunsPerYear      = B4 * 52;
+  const confidenceRerunHours         = (confidenceRerunsPerYear * B1) / 60;
+  const confidenceRerunComputeCost   = confidenceRerunHours * costPerBuildHour;
+  const confidenceRerunLaborCost     = confidenceRerunHours * A3;
+  const confidenceRerunCost          = confidenceRerunComputeCost + confidenceRerunLaborCost;
 
   // ─── TRIAGE — REAL BUGS ONLY ──────────────────────────────
   // A2 (QA/SDET) are the primary investigators; scale triage headcount by total eng team
